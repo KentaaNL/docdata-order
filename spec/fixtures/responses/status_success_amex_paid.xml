@@ -1,0 +1,49 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Body>
+    <extendedStatusResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_3/" ddpXsdVersion="1.3.5">
+      <statusSuccess>
+        <success code="SUCCESS">Operation successful.</success>
+        <report>
+          <approximateTotals exchangedTo="EUR" exchangeRateDate="2017-05-22 12:31:01">
+            <totalRegistered>100</totalRegistered>
+            <totalShopperPending>0</totalShopperPending>
+            <totalAcquirerPending>0</totalAcquirerPending>
+            <totalAcquirerApproved>100</totalAcquirerApproved>
+            <totalCaptured>0</totalCaptured>
+            <totalRefunded>0</totalRefunded>
+            <totalChargedback>0</totalChargedback>
+            <totalReversed>0</totalReversed>
+          </approximateTotals>
+          <payment>
+            <id>12345678</id>
+            <paymentMethod>AMEX</paymentMethod>
+            <authorization>
+              <status>AUTHORIZED</status>
+              <amount currency="EUR">100</amount>
+              <confidenceLevel>ACQUIRER_APPROVED</confidenceLevel>
+              <capture>
+                <status>ERROR</status>
+                <amount currency="EUR">100</amount>
+                <reason>Capture failed</reason>
+              </capture>
+            </authorization>
+            <extended>
+              <riskChecks score="0"/>
+              <amexPaymentInfo>
+                <cardHolder>Tester</cardHolder>
+                <cardCountry>US</cardCountry>
+                <panLast4>1111</panLast4>
+              </amexPaymentInfo>
+            </extended>
+          </payment>
+          <consideredSafe>
+            <value>true</value>
+            <level>SAFE</level>
+            <date>2017-05-22T11:58:57.210+02:00</date>
+            <reason>EXACT_MATCH</reason>
+          </consideredSafe>
+        </report>
+      </statusSuccess>
+    </extendedStatusResponse>
+  </S:Body>
+</S:Envelope>

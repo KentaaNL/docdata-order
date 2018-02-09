@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <extendedStatusResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_3/" ddpXsdVersion="1.3.5">
+            <statusErrors>
+                <error code="REQUEST_DATA_INCORRECT">Order could not be found with the given key.</error>
+            </statusErrors>
+        </extendedStatusResponse>
+    </S:Body>
+</S:Envelope>

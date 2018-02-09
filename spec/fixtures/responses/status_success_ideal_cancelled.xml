@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <extendedStatusResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_3/" ddpXsdVersion="1.3.5">
+            <statusSuccess>
+                <success code="SUCCESS">Operation successful.</success>
+                <report>
+                    <approximateTotals exchangedTo="EUR" exchangeRateDate="2017-05-09 11:29:57">
+                        <totalRegistered>100</totalRegistered>
+                        <totalShopperPending>0</totalShopperPending>
+                        <totalAcquirerPending>0</totalAcquirerPending>
+                        <totalAcquirerApproved>0</totalAcquirerApproved>
+                        <totalCaptured>0</totalCaptured>
+                        <totalRefunded>0</totalRefunded>
+                        <totalChargedback>0</totalChargedback>
+                        <totalReversed>0</totalReversed>
+                    </approximateTotals>
+                    <payment>
+                        <id>12345678</id>
+                        <paymentMethod>IDEAL</paymentMethod>
+                        <authorization>
+                            <status>CANCELED</status>
+                            <reason>Canceled</reason>
+                            <amount currency="EUR">100</amount>
+                            <confidenceLevel>SHOPPER_PENDING</confidenceLevel>
+                        </authorization>
+                        <extended>
+                            <riskChecks score="0"/>
+                            <iDealPaymentInfo>
+                                <issuerId>ABNAMRO</issuerId>
+                                <holderName>Onderheuvel</holderName>
+                                <shopperBankAccount>
+                                    <iban>NL44RABO0123456789</iban>
+                                    <bic>RABONL2U</bic>
+                                </shopperBankAccount>
+                            </iDealPaymentInfo>
+                        </extended>
+                    </payment>
+                    <consideredSafe>
+                        <value>false</value>
+                        <level>SAFE</level>
+                    </consideredSafe>
+                </report>
+            </statusSuccess>
+        </extendedStatusResponse>
+    </S:Body>
+</S:Envelope>

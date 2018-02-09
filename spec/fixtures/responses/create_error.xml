@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <createResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_3/" ddpXsdVersion="1.3.5">
+            <createErrors>
+                <error code="REQUEST_DATA_INCORRECT">Merchant order reference is not unique.</error>
+            </createErrors>
+        </createResponse>
+    </S:Body>
+</S:Envelope>

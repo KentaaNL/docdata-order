@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Body>
+    <startResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_3/" ddpXsdVersion="1.3.5">
+      <startSuccess>
+        <success code="SUCCESS">Operation successful.</success>
+        <paymentResponse>
+          <paymentSuccess>
+            <status>AUTHORIZED</status>
+            <id>12345678</id>
+          </paymentSuccess>
+        </paymentResponse>
+      </startSuccess>
+    </startResponse>
+  </S:Body>
+</S:Envelope>

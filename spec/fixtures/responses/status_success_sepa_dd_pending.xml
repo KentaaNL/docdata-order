@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Body>
+    <extendedStatusResponse xmlns="http://www.docdatapayments.com/services/paymentservice/1_3/" ddpXsdVersion="1.3.5">
+      <statusSuccess>
+        <success code="SUCCESS">Operation successful.</success>
+        <report>
+          <approximateTotals exchangedTo="EUR" exchangeRateDate="2017-05-09 12:18:57">
+            <totalRegistered>100</totalRegistered>
+            <totalShopperPending>0</totalShopperPending>
+            <totalAcquirerPending>100</totalAcquirerPending>
+            <totalAcquirerApproved>0</totalAcquirerApproved>
+            <totalCaptured>0</totalCaptured>
+            <totalRefunded>0</totalRefunded>
+            <totalChargedback>0</totalChargedback>
+            <totalReversed>0</totalReversed>
+          </approximateTotals>
+          <payment>
+            <id>12345678</id>
+            <paymentMethod>SEPA_DIRECT_DEBIT</paymentMethod>
+            <authorization>
+              <status>AUTHORIZED</status>
+              <amount currency="EUR">100</amount>
+              <confidenceLevel>ACQUIRER_PENDING</confidenceLevel>
+              <capture>
+                <status>NEW</status>
+                <amount currency="EUR">100</amount>
+              </capture>
+            </authorization>
+            <extended>
+              <riskChecks score="0"/>
+              <sepaDirectDebitPaymentInfo>
+                <iban>NL44RABO0123456789</iban>
+                <country code="NL"/>
+                <mandateNumber>ddps-123456789012345678</mandateNumber>
+              </sepaDirectDebitPaymentInfo>
+            </extended>
+          </payment>
+          <consideredSafe>
+            <value>false</value>
+            <level>SAFE</level>
+          </consideredSafe>
+        </report>
+      </statusSuccess>
+    </extendedStatusResponse>
+  </S:Body>
+</S:Envelope>
