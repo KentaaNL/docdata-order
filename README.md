@@ -40,7 +40,7 @@ Create a new order with the `create` method. You need to provide the following p
 
 ```ruby
 options = {
-  amount: "10",
+  amount: "12.50",
   order_reference: "12345",
   description: "Test order",
   profile: "profile",
@@ -53,8 +53,8 @@ options = {
   },
   address: {
     street: "Jansbuitensingel",
-    house_number: "6",
-    postal_code: "6811AA",
+    house_number: "29",
+    postal_code: "6811AD",
     city: "Arnhem",
     country: "NL"
   }
