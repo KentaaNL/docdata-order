@@ -6,7 +6,7 @@ module Docdata
       ISSUERS = {
         "ABNANL2A" => "ABN AMRO",
         "ASNBNL21" => "ASN Bank",
-        "BUNQNL2A" => "Bunq",
+        "BUNQNL2A" => "bunq",
         "INGBNL2A" => "ING",
         "KNABNL2H" => "Knab bank",
         "RABONL2U" => "Rabobank",
