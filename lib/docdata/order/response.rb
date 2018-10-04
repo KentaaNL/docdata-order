@@ -248,7 +248,7 @@ module Docdata
       end
 
       def total_reversed
-        to_decimal(approximate_totals[:total_chargedback])
+        to_decimal(approximate_totals[:total_reversed])
       end
 
       def total_charged_back
