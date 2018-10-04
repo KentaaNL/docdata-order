@@ -10,7 +10,7 @@ describe Docdata::Order::Request do
           name: "name",
           password: "password"
         },
-        amount: BigDecimal.new("10"),
+        amount: BigDecimal("10"),
         currency: "USD",
         order_reference: "12345",
         description: "Test order",

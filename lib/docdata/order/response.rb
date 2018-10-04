@@ -178,7 +178,7 @@ module Docdata
 
         # When multiple payments are found, return the payment with the newest ID.
         if payment.is_a?(Array)
-          payment.sort_by { |key, _value| key[:id] }.last
+          payment.max_by { |key, _value| key[:id] }
         else
           payment
         end
@@ -319,7 +319,7 @@ module Docdata
       private
 
       def to_decimal(cents)
-        total = BigDecimal.new(cents)
+        total = BigDecimal(cents)
         total /= 100.0
         total
       end

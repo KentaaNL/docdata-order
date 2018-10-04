@@ -135,7 +135,7 @@ module Docdata
       private
 
       def amount
-        decimal = BigDecimal.new(options.fetch(:amount).to_s)
+        decimal = BigDecimal(options.fetch(:amount).to_s)
         decimal *= 100 # to cents
         decimal.to_i
       end
