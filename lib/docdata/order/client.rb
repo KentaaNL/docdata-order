@@ -49,9 +49,7 @@ module Docdata
         @client ||= begin
           params = { wsdl: wsdl_url, raise_errors: false, namespace_identifier: nil, namespaces: { "xmlns:ddp" => XMLNS_DDP } }
 
-          if @options[:debug]
-            params.merge!(log: true, log_level: :debug, pretty_print_xml: true)
-          end
+          params.merge!(log: true, log_level: :debug, pretty_print_xml: true) if @options[:debug]
 
           params[:logger] = Rails.logger if defined?(Rails)
 
