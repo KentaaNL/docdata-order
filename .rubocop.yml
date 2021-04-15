@@ -1,12 +1,15 @@
 # Docdata-order RuboCop configuration
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   DisplayCopNames: true
   DisplayStyleGuide: true
 
-# We target 2.3, but still want to support 2.0.
+# We target 2.4, but still want to support 2.0.
 Gemspec/RequiredRubyVersion:
+  Enabled: false
+
+Layout/LineLength:
   Enabled: false
 
 Metrics/AbcSize:
@@ -17,9 +20,6 @@ Metrics/BlockLength:
     - 'spec/**/*.rb'
 
 Metrics/ClassLength:
-  Enabled: false
-
-Metrics/LineLength:
   Enabled: false
 
 Metrics/MethodLength:

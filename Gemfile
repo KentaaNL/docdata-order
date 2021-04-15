@@ -5,4 +5,4 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in docdata-order.gemspec
 gemspec
 
-gem 'rubocop', '~> 0.60.0'
+gem 'rubocop', '~> 0.79.0'
