@@ -130,6 +130,15 @@ module Docdata
 
         # The description that is used by payment providers on shopper statements.
         builder.receiptText(receipt_text)
+
+        # The merchant_reference is used for recurring payments.
+        if initial
+          builder.paymentRequest do |payment_request|
+            payment_request.initialPaymentReference do |payment_reference|
+              payment_reference.merchantReference(merchant_reference)
+            end
+          end
+        end
       end
 
       private
@@ -211,6 +220,14 @@ module Docdata
       def receipt_text
         options.fetch(:description)[0, 49]
       end
+
+      def initial
+        options[:initial]
+      end
+
+      def merchant_reference
+        initial[:merchant_reference]
+      end
     end
 
     # Start a payment order (Webdirect).
@@ -219,22 +236,30 @@ module Docdata
         # Payment order key belonging to the order for which a transaction needs to be started.
         builder.paymentOrderKey(order_key)
 
-        builder.payment do |payment|
-          payment.paymentMethod(payment_method)
+        if recurring
+          builder.recurringPaymentRequest do |payment_request|
+            payment_request.initialPaymentReference do |payment_reference|
+              payment_reference.merchantReference(merchant_reference)
+            end
+          end
+        else
+          builder.payment do |payment|
+            payment.paymentMethod(payment_method)
 
-          case payment_method
-          when PaymentMethod::IDEAL
-            payment.iDealPaymentInput do |input|
-              input.issuerId(issuer_id)
+            case payment_method
+            when PaymentMethod::IDEAL
+              payment.iDealPaymentInput do |input|
+                input.issuerId(issuer_id)
+              end
+            when PaymentMethod::SEPA_DIRECT_DEBIT
+              payment.directDebitPaymentInput do |input|
+                input.holderName(account_name)
+                input.iban(account_iban)
+                input.bic(account_bic) if account_bic
+              end
+            else
+              raise ArgumentError, "Payment method not supported: #{payment_method}"
             end
-          when PaymentMethod::SEPA_DIRECT_DEBIT
-            payment.directDebitPaymentInput do |input|
-              input.holderName(account_name)
-              input.iban(account_iban)
-              input.bic(account_bic) if account_bic
-            end
-          else
-            raise ArgumentError, "Payment method not supported: #{payment_method}"
           end
         end
       end
@@ -263,6 +288,14 @@ module Docdata
 
       def account_bic
         options[:account_bic]
+      end
+
+      def recurring
+        options[:recurring]
+      end
+
+      def merchant_reference
+        recurring[:merchant_reference]
       end
     end
 
