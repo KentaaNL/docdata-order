@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "builder/xmlmarkup"
-require "bigdecimal"
 require "securerandom"
 
 module Docdata
@@ -144,9 +143,7 @@ module Docdata
       private
 
       def amount
-        decimal = BigDecimal(options.fetch(:amount).to_s)
-        decimal *= 100 # to cents
-        decimal.to_i
+        Amount.new(options.fetch(:amount)).to_cents
       end
 
       def order_reference

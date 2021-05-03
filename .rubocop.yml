@@ -32,6 +32,9 @@ Style/BlockDelimiters:
 Style/ExpandPathArguments:
   Enabled: false
 
+Style/FormatStringToken:
+  Enabled: false
+
 Style/GuardClause:
   Enabled: false
 

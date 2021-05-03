@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "docdata/order/amount"
 require "docdata/order/client"
 require "docdata/order/exception"
 require "docdata/order/gender"

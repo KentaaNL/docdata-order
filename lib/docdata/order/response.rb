@@ -319,9 +319,7 @@ module Docdata
       private
 
       def to_decimal(cents)
-        total = BigDecimal(cents)
-        total /= 100.0
-        total
+        Amount.from_cents(cents).to_d
       end
     end
   end
