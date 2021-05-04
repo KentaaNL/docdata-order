@@ -93,7 +93,12 @@ module Docdata
       end
 
       def merchant_name
-        options.fetch(:merchant).fetch(:name)
+        # Use subject merchant when present, otherwise fallback to merchant.
+        if options[:subject_merchant]
+          options.fetch(:subject_merchant).fetch(:name)
+        else
+          options.fetch(:merchant).fetch(:name)
+        end
       end
 
       def client_language
