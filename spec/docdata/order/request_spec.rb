@@ -10,7 +10,7 @@ describe Docdata::Order::Request do
           name: "name",
           password: "password"
         },
-        amount: BigDecimal("10"),
+        amount: "10",
         currency: "USD",
         order_reference: "12345",
         description: "Test order",
@@ -46,7 +46,7 @@ describe Docdata::Order::Request do
           name: "name",
           password: "password"
         },
-        amount: BigDecimal("10"),
+        amount: "10",
         currency: "USD",
         order_reference: "12345",
         description: "Test order",
@@ -77,6 +77,51 @@ describe Docdata::Order::Request do
       )
 
       expect(request.to_s).to eq(%(<merchant name="name" password="password"/><merchantOrderReference>12345</merchantOrderReference><paymentPreferences><profile>foobar</profile><numberOfDaysToPay>14</numberOfDaysToPay></paymentPreferences><shopper id="12345"><name><first>John</first><middle>from</middle><last>Doe</last></name><email>john.doe@example.com</email><language code="en"/><gender>M</gender><ipAddress>127.0.0.1</ipAddress></shopper><totalGrossAmount currency="USD">1000</totalGrossAmount><billTo><name><first>John</first><middle>from</middle><last>Doe</last></name><address><street>Mainstreet</street><houseNumber>42</houseNumber><postalCode>1234AA</postalCode><city>Big city</city><country code="NL"/></address></billTo><description>Test order</description><receiptText>Test order</receiptText><paymentRequest><initialPaymentReference><merchantReference>12345</merchantReference></initialPaymentReference></paymentRequest><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+    end
+
+    it "creates a XML message with a subject merchant fee" do
+      request = Docdata::Order::CreateRequest.new(
+        merchant: {
+          name: "name",
+          password: "password"
+        },
+        amount: "10",
+        currency: "USD",
+        order_reference: "12345",
+        description: "Test order",
+        profile: "foobar",
+        shopper: {
+          id: "12345",
+          first_name: "John",
+          infix: "from",
+          last_name: "Doe",
+          email: "john.doe@example.com",
+          language: "en",
+          gender: Docdata::Order::Gender::MALE,
+          ip_address: "127.0.0.1"
+        },
+        address: {
+          street: "Mainstreet",
+          house_number: "42",
+          postal_code: "1234AA",
+          city: "Big city",
+          country: "NL"
+        },
+        payment_method: Docdata::Order::PaymentMethod::IDEAL,
+        issuer_id: Docdata::Order::Ideal::ISSUERS.first[0],
+        return_url: "http://yourwebshop.nl/payment_return",
+        subject_merchant: {
+          name: "sub",
+          token: "12345",
+          fee: {
+            amount: "2.50",
+            currency: "USD",
+            description: "fee description"
+          }
+        }
+      )
+
+      expect(request.to_s).to eq(%(<merchant name="name" password="password"><subjectMerchant name="sub" token="12345"><fee moment="FULLY_PAID"><amount currency="USD">250</amount><description>fee description</description></fee></subjectMerchant></merchant><merchantOrderReference>12345</merchantOrderReference><paymentPreferences><profile>foobar</profile><numberOfDaysToPay>14</numberOfDaysToPay></paymentPreferences><shopper id="12345"><name><first>John</first><middle>from</middle><last>Doe</last></name><email>john.doe@example.com</email><language code="en"/><gender>M</gender><ipAddress>127.0.0.1</ipAddress></shopper><totalGrossAmount currency="USD">1000</totalGrossAmount><billTo><name><first>John</first><middle>from</middle><last>Doe</last></name><address><street>Mainstreet</street><houseNumber>42</houseNumber><postalCode>1234AA</postalCode><city>Big city</city><country code="NL"/></address></billTo><description>Test order</description><receiptText>Test order</receiptText><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
     end
   end
 

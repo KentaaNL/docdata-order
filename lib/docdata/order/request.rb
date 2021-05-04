@@ -17,7 +17,20 @@ module Docdata
         builder = Builder::XmlMarkup.new
 
         # Merchant credentials.
-        builder.merchant(name: merchant_name, password: merchant_password)
+        if subject_merchant
+          builder.merchant(name: merchant_name, password: merchant_password) do |merchant|
+            # The merchant on whose behalf this request should be executed.
+            merchant.subjectMerchant(name: subject_merchant_name, token: subject_merchant_token) do |subject|
+              # The fee to apply to the subject merchant. If the fee is zero, then it is ignored. A fee can only be applied to create-order requests.
+              subject.fee(moment: subject_merchant_fee_moment) do |fee|
+                fee.amount(subject_merchant_fee_amount, currency: subject_merchant_fee_currency)
+                fee.description(subject_merchant_fee_description) if subject_merchant_fee_description
+              end
+            end
+          end
+        else
+          builder.merchant(name: merchant_name, password: merchant_password)
+        end
 
         build_request(builder)
 
@@ -54,6 +67,38 @@ module Docdata
 
       def merchant_password
         options.fetch(:merchant).fetch(:password)
+      end
+
+      def subject_merchant
+        options[:subject_merchant]
+      end
+
+      def subject_merchant_name
+        subject_merchant.fetch(:name)
+      end
+
+      def subject_merchant_token
+        subject_merchant.fetch(:token)
+      end
+
+      def subject_merchant_fee
+        subject_merchant.fetch(:fee)
+      end
+
+      def subject_merchant_fee_moment
+        subject_merchant_fee[:moment] || "FULLY_PAID"
+      end
+
+      def subject_merchant_fee_description
+        subject_merchant_fee[:description]
+      end
+
+      def subject_merchant_fee_amount
+        Amount.new(subject_merchant_fee.fetch(:amount)).to_cents
+      end
+
+      def subject_merchant_fee_currency
+        subject_merchant_fee[:currency] || "EUR"
       end
 
       def build_request
