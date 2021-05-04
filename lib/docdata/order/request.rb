@@ -21,10 +21,12 @@ module Docdata
           builder.merchant(name: merchant_name, password: merchant_password) do |merchant|
             # The merchant on whose behalf this request should be executed.
             merchant.subjectMerchant(name: subject_merchant_name, token: subject_merchant_token) do |subject|
-              # The fee to apply to the subject merchant. If the fee is zero, then it is ignored. A fee can only be applied to create-order requests.
-              subject.fee(moment: subject_merchant_fee_moment) do |fee|
-                fee.amount(subject_merchant_fee_amount, currency: subject_merchant_fee_currency)
-                fee.description(subject_merchant_fee_description) if subject_merchant_fee_description
+              if subject_merchant_fee
+                # The fee to apply to the subject merchant. If the fee is zero, then it is ignored. A fee can only be applied to create-order requests.
+                subject.fee(moment: subject_merchant_fee_moment) do |fee|
+                  fee.amount(subject_merchant_fee_amount, currency: subject_merchant_fee_currency)
+                  fee.description(subject_merchant_fee_description) if subject_merchant_fee_description
+                end
               end
             end
           end
@@ -82,7 +84,7 @@ module Docdata
       end
 
       def subject_merchant_fee
-        subject_merchant.fetch(:fee)
+        subject_merchant[:fee]
       end
 
       def subject_merchant_fee_moment
