@@ -77,7 +77,7 @@ To create an order and automatically redirect to the bank using iDEAL as payment
 ```ruby
 response = order.create(options.merge(
   payment_method: Docdata::Order::PaymentMethod::IDEAL,
-  issuer_id: Docdata::Order::Ideal::ISSUERS.first[0],
+  issuer_id: "INGBNL2A",
   return_url: "http://yourwebshop.nl/payment_return"
 ))
 ```

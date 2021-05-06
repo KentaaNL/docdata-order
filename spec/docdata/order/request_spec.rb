@@ -33,7 +33,7 @@ describe Docdata::Order::Request do
           country: "NL"
         },
         payment_method: Docdata::Order::PaymentMethod::IDEAL,
-        issuer_id: Docdata::Order::Ideal::ISSUERS.first[0],
+        issuer_id: "TESTNL12",
         return_url: "http://yourwebshop.nl/payment_return"
       )
 
@@ -69,7 +69,7 @@ describe Docdata::Order::Request do
           country: "NL"
         },
         payment_method: Docdata::Order::PaymentMethod::IDEAL,
-        issuer_id: Docdata::Order::Ideal::ISSUERS.first[0],
+        issuer_id: "TESTNL12",
         return_url: "http://yourwebshop.nl/payment_return",
         initial: {
           merchant_reference: "12345"
@@ -108,7 +108,7 @@ describe Docdata::Order::Request do
           country: "NL"
         },
         payment_method: Docdata::Order::PaymentMethod::IDEAL,
-        issuer_id: Docdata::Order::Ideal::ISSUERS.first[0],
+        issuer_id: "TESTNL12",
         return_url: "http://yourwebshop.nl/payment_return",
         subject_merchant: {
           name: "sub",
