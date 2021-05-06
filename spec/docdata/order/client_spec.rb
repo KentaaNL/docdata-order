@@ -96,8 +96,8 @@ describe Docdata::Order::Client do
       response = client.start(
         order_key: "098F6BCD4621D373CADE4E832627B4F6",
         payment_method: Docdata::Order::PaymentMethod::SEPA_DIRECT_DEBIT,
-        account_name: "Onderheuvel",
-        account_iban: "NL44RABO0123456789"
+        consumer_name: "Onderheuvel",
+        consumer_iban: "NL44RABO0123456789"
       )
 
       expect(response.success?).to be true
@@ -113,8 +113,8 @@ describe Docdata::Order::Client do
       response = client.start(
         order_key: "098F6BCD4621D373CADE4E832627B4F6",
         payment_method: Docdata::Order::PaymentMethod::SEPA_DIRECT_DEBIT,
-        account_name: "Onderheuvel",
-        account_iban: "NL44RABO0123456789"
+        consumer_name: "Onderheuvel",
+        consumer_iban: "NL44RABO0123456789"
       )
 
       expect(response.success?).to be false

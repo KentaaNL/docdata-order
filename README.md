@@ -90,8 +90,8 @@ When using Webdirect, you can use `start` to start a payment order.
 options = {
   order_key: "12345",
   payment_method: Docdata::Order::PaymentMethod::SEPA_DIRECT_DEBIT,
-  account_name: "Onderheuvel",
-  account_iban: "NL44RABO0123456789"
+  consumer_name: "Onderheuvel",
+  consumer_iban: "NL44RABO0123456789"
 }
 
 response = order.start(options)

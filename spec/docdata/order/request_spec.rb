@@ -134,9 +134,9 @@ describe Docdata::Order::Request do
         },
         order_key: "12345",
         payment_method: Docdata::Order::PaymentMethod::SEPA_DIRECT_DEBIT,
-        account_name: "Onderheuvel",
-        account_iban: "NL44RABO0123456789",
-        account_bic: "RABONL2U"
+        consumer_name: "Onderheuvel",
+        consumer_iban: "NL44RABO0123456789",
+        consumer_bic: "RABONL2U"
       )
 
       expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentOrderKey>12345</paymentOrderKey><payment><paymentMethod>SEPA_DIRECT_DEBIT</paymentMethod><directDebitPaymentInput><holderName>Onderheuvel</holderName><iban>NL44RABO0123456789</iban><bic>RABONL2U</bic></directDebitPaymentInput></payment><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))

@@ -108,10 +108,10 @@ describe Docdata::Order::Response do
         expect(response.started?).to be false
       end
 
-      it 'returns the IBAN' do
-        expect(response.account_name).to eq("Onderheuvel")
-        expect(response.account_iban).to eq("NL44RABO0123456789")
-        expect(response.account_bic).to eq("RABONL2U")
+      it 'returns the consumer details' do
+        expect(response.consumer_name).to eq("Onderheuvel")
+        expect(response.consumer_iban).to eq("NL44RABO0123456789")
+        expect(response.consumer_bic).to eq("RABONL2U")
       end
     end
 
@@ -147,10 +147,10 @@ describe Docdata::Order::Response do
         expect(response.started?).to be false
       end
 
-      it 'returns the IBAN' do
-        expect(response.account_name).to eq("Onderheuvel")
-        expect(response.account_iban).to eq("NL44RABO0123456789")
-        expect(response.account_bic).to eq("RABONL2U")
+      it 'returns the consumer details' do
+        expect(response.consumer_name).to eq("Onderheuvel")
+        expect(response.consumer_iban).to eq("NL44RABO0123456789")
+        expect(response.consumer_bic).to eq("RABONL2U")
       end
     end
 
@@ -211,10 +211,10 @@ describe Docdata::Order::Response do
         expect(response.started?).to be true
       end
 
-      it 'returns the IBAN' do
-        expect(response.account_name).to be nil
-        expect(response.account_iban).to eq("NL44RABO0123456789")
-        expect(response.account_bic).to be nil
+      it 'returns the consumer details' do
+        expect(response.consumer_name).to be nil
+        expect(response.consumer_iban).to eq("NL44RABO0123456789")
+        expect(response.consumer_bic).to be nil
       end
 
       it 'returns the mandate number' do
@@ -246,10 +246,10 @@ describe Docdata::Order::Response do
         expect(response.started?).to be true
       end
 
-      it 'returns no IBAN' do
-        expect(response.account_name).to be nil
-        expect(response.account_iban).to be nil
-        expect(response.account_bic).to be nil
+      it 'returns no consumer details' do
+        expect(response.consumer_name).to be nil
+        expect(response.consumer_iban).to be nil
+        expect(response.consumer_bic).to be nil
       end
     end
   end

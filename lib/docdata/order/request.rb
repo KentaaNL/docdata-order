@@ -297,9 +297,9 @@ module Docdata
               end
             when PaymentMethod::SEPA_DIRECT_DEBIT
               payment.directDebitPaymentInput do |input|
-                input.holderName(account_name)
-                input.iban(account_iban)
-                input.bic(account_bic) if account_bic
+                input.holderName(consumer_name)
+                input.iban(consumer_iban)
+                input.bic(consumer_bic) if consumer_bic
               end
             else
               raise ArgumentError, "Payment method not supported: #{payment_method}"
@@ -322,16 +322,16 @@ module Docdata
         options.fetch(:issuer_id)
       end
 
-      def account_name
-        options.fetch(:account_name)
+      def consumer_name
+        options.fetch(:consumer_name)
       end
 
-      def account_iban
-        options.fetch(:account_iban)
+      def consumer_iban
+        options.fetch(:consumer_iban)
       end
 
-      def account_bic
-        options[:account_bic]
+      def consumer_bic
+        options[:consumer_bic]
       end
 
       def recurring

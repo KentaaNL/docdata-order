@@ -285,7 +285,7 @@ module Docdata
         authorization_status == "CANCELED"
       end
 
-      def account_iban
+      def consumer_iban
         case payment_method
         when PaymentMethod::IDEAL
           payment_info = payment[:extended][:i_deal_payment_info]
@@ -296,7 +296,7 @@ module Docdata
         end
       end
 
-      def account_bic
+      def consumer_bic
         case payment_method
         when PaymentMethod::IDEAL
           payment_info = payment[:extended][:i_deal_payment_info]
@@ -307,7 +307,7 @@ module Docdata
         end
       end
 
-      def account_name
+      def consumer_name
         if payment_method == PaymentMethod::IDEAL
           payment_info = payment[:extended][:i_deal_payment_info]
           payment_info[:holder_name] if payment_info
