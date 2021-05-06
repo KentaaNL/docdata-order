@@ -315,7 +315,7 @@ module Docdata
       end
 
       def payment_method
-        options.fetch(:payment_method)
+        options.fetch(:payment_method).to_s
       end
 
       def issuer_id
@@ -345,6 +345,19 @@ module Docdata
 
     # Retrieve additional status information of an Order.
     class ExtendedStatusRequest < Request
+      def build_request(builder)
+        builder.paymentOrderKey(order_key)
+      end
+
+      private
+
+      def order_key
+        options.fetch(:order_key)
+      end
+    end
+
+    # Retrieve available payment methods for an Order.
+    class ListPaymentMethodsRequest < Request
       def build_request(builder)
         builder.paymentOrderKey(order_key)
       end

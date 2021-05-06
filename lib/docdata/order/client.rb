@@ -43,6 +43,16 @@ module Docdata
         ExtendedStatusResponse.new(params, response)
       end
 
+      def payment_methods(options = {})
+        params = @options.merge(options)
+
+        response = client.call(:list_payment_methods, message: ListPaymentMethodsRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
+
+        raise Exception, response unless response.success?
+
+        ListPaymentMethodsResponse.new(params, response)
+      end
+
       private
 
       def client

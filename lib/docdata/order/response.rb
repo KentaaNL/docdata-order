@@ -106,7 +106,7 @@ module Docdata
       end
 
       def payment_method
-        options[:payment_method]
+        options[:payment_method].to_s
       end
 
       def issuer_id
@@ -325,6 +325,33 @@ module Docdata
 
       def to_decimal(cents)
         Amount.from_cents(cents).to_d
+      end
+    end
+
+    # Response to a list payment methods operation.
+    class ListPaymentMethodsResponse < Response
+      def data
+        body[:list_payment_methods_response]
+      end
+
+      def success?
+        data.key?(:list_payment_methods_success)
+      end
+
+      def error?
+        data.key?(:list_payment_methods_errors)
+      end
+
+      def errors
+        data[:list_payment_methods_errors]
+      end
+
+      def payment_methods
+        data[:list_payment_methods_success][:payment_method].map do |payment_method|
+          method = PaymentMethod.new(payment_method[:name])
+          method.issuers = payment_method[:issuers][:issuer].map { |issuer| [issuer.attributes["id"], issuer.to_s] }.to_h if payment_method.key?(:issuers)
+          method
+        end
       end
     end
   end

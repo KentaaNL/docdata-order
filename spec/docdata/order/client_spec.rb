@@ -5,7 +5,7 @@ require "spec_helper"
 describe Docdata::Order::Client do
   subject(:client) { Docdata::Order::Client.new("12345", "12345") }
 
-  before(:each) do
+  before do
     wsdl = File.read("spec/fixtures/wsdl.xml")
     stub_request(:get, "https://secure.docdatapayments.com/ps/services/paymentservice/1_3?wsdl").to_return(status: 200, body: wsdl)
   end
@@ -155,6 +155,40 @@ describe Docdata::Order::Client do
       stub_request(:post, "https://secure.docdatapayments.com/ps/services/paymentservice/1_3").to_return(status: 200, body: data)
 
       response = client.status(order_key: "098F6BCD4621D373CADE4E832627B4F6")
+
+      expect(response.success?).to be false
+      expect(response.error?).to be true
+      expect(response.error_code).to eq("REQUEST_DATA_INCORRECT")
+      expect(response.error_message).to eq("Order could not be found with the given key.")
+    end
+  end
+
+  describe '#payment_methods' do
+    it 'raises an exception when parameters are missing' do
+      expect {
+        client.payment_methods
+      }.to raise_error(KeyError)
+    end
+
+    it 'successfully retrieves the payment methods of an order' do
+      data = File.read("spec/fixtures/responses/payment_methods_success.xml")
+      stub_request(:post, "https://secure.docdatapayments.com/ps/services/paymentservice/1_3").to_return(status: 200, body: data)
+
+      response = client.payment_methods(order_key: "098F6BCD4621D373CADE4E832627B4F6")
+
+      expect(response.success?).to be true
+      expect(response.error?).to be false
+      expect(response.error_code).to be nil
+      expect(response.error_message).to be nil
+
+      expect(response.payment_methods).to be_a(Array)
+    end
+
+    it 'returns an error when retrieving the payment methods fails' do
+      data = File.read("spec/fixtures/responses/payment_methods_error.xml")
+      stub_request(:post, "https://secure.docdatapayments.com/ps/services/paymentservice/1_3").to_return(status: 200, body: data)
+
+      response = client.payment_methods(order_key: "098F6BCD4621D373CADE4E832627B4F6")
 
       expect(response.success?).to be false
       expect(response.error?).to be true

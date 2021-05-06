@@ -10,7 +10,7 @@ describe Docdata::Order::Response do
       Docdata::Order::CreateResponse.new(options, response)
     end
 
-    context "iDEAL" do
+    context "with payment method iDEAL" do
       let(:options) { { merchant: { name: "12345" }, shopper: { language: "nl" }, payment_method: Docdata::Order::PaymentMethod::IDEAL, issuer_id: "ABNANL2A" } }
       let(:xml) { File.read("spec/fixtures/responses/create_success.xml") }
 
@@ -23,7 +23,7 @@ describe Docdata::Order::Response do
       end
     end
 
-    context "Visa" do
+    context "with payment method Visa" do
       let(:options) { { merchant: { name: "12345" }, shopper: { language: "nl" }, payment_method: Docdata::Order::PaymentMethod::VISA } }
       let(:xml) { File.read("spec/fixtures/responses/create_success.xml") }
 
@@ -36,7 +36,7 @@ describe Docdata::Order::Response do
       end
     end
 
-    context "MasterCard" do
+    context "with payment method MasterCard" do
       let(:options) { { merchant: { name: "12345" }, shopper: { language: "nl" }, payment_method: Docdata::Order::PaymentMethod::MASTER_CARD } }
       let(:xml) { File.read("spec/fixtures/responses/create_success.xml") }
 
@@ -49,7 +49,7 @@ describe Docdata::Order::Response do
       end
     end
 
-    context "PayPal" do
+    context "with payment method PayPal" do
       let(:options) { { merchant: { name: "12345" }, shopper: { language: "nl" }, payment_method: Docdata::Order::PaymentMethod::PAYPAL } }
       let(:xml) { File.read("spec/fixtures/responses/create_success.xml") }
 
@@ -70,7 +70,7 @@ describe Docdata::Order::Response do
       Docdata::Order::StartResponse.new({}, response)
     end
 
-    context "iDEAL" do
+    context "with payment method iDEAL" do
       let(:xml) { File.read("spec/fixtures/responses/start_success.xml") }
 
       it 'returns the payment ID' do
@@ -78,7 +78,7 @@ describe Docdata::Order::Response do
       end
     end
 
-    context "SEPA direct debit" do
+    context "with payment method SEPA direct debit" do
       let(:xml) { File.read("spec/fixtures/responses/start_success.xml") }
 
       it 'returns the payment ID' do
@@ -94,7 +94,7 @@ describe Docdata::Order::Response do
       Docdata::Order::ExtendedStatusResponse.new({}, response)
     end
 
-    context "iDEAL order cancelled" do
+    context "with cancelled iDEAL order" do
       let(:xml) { File.read("spec/fixtures/responses/status_success_ideal_cancelled.xml") }
 
       it 'returns the registered amount' do
@@ -125,7 +125,7 @@ describe Docdata::Order::Response do
       end
     end
 
-    context "iDEAL order paid" do
+    context "with paid iDEAL order" do
       let(:xml) { File.read("spec/fixtures/responses/status_success_ideal_paid.xml") }
 
       it 'returns the registered amount' do
@@ -164,7 +164,7 @@ describe Docdata::Order::Response do
       end
     end
 
-    context "AMEX order paid" do
+    context "with paid AMEX order" do
       let(:xml) { File.read("spec/fixtures/responses/status_success_amex_paid.xml") }
 
       it 'returns the registered amount' do
@@ -193,7 +193,7 @@ describe Docdata::Order::Response do
       end
     end
 
-    context "SEPA direct debit order pending" do
+    context "with pending SEPA direct debit order" do
       let(:xml) { File.read("spec/fixtures/responses/status_success_sepa_dd_pending.xml") }
 
       it 'returns the registered amount' do
@@ -232,7 +232,7 @@ describe Docdata::Order::Response do
       end
     end
 
-    context "order without payment" do
+    context "with order that has no payment" do
       let(:xml) { File.read("spec/fixtures/responses/status_success_without_payment.xml") }
 
       it 'returns the registered amount' do
@@ -261,6 +261,42 @@ describe Docdata::Order::Response do
         expect(response.account_iban).to be nil
         expect(response.account_bic).to be nil
       end
+    end
+  end
+
+  describe "payment_methods" do
+    subject(:response) do
+      http = OpenStruct.new(body: xml)
+      response = Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new)
+      Docdata::Order::ListPaymentMethodsResponse.new({}, response)
+    end
+
+    let(:xml) { File.read("spec/fixtures/responses/payment_methods_success.xml") }
+
+    it 'returns an array with payment methods' do
+      expect(response.payment_methods).to be_a(Array)
+      expect(response.payment_methods.count).to eq(6)
+      expect(response.payment_methods.first).to be_a(Docdata::Order::PaymentMethod)
+    end
+
+    it 'returns the issuers for iDEAL' do
+      ideal = response.payment_methods.find { |method| method.to_s == Docdata::Order::PaymentMethod::IDEAL }
+      expect(ideal).to be
+      expect(ideal.issuers).to eq(
+        "ABNANL2A" => "ABN Amro Bank",
+        "ASNBNL21" => "ASN Bank",
+        "BUNQNL2A" => "bunq",
+        "FVLBNL22" => "Van Lanschot Bankiers",
+        "HANDNL2A" => "Handelsbanken",
+        "INGBNL2A" => "ING Bank",
+        "KNABNL2H" => "Knab",
+        "KREDBE22" => "KBC",
+        "MOYONL21" => "Moneyou",
+        "RABONL2U" => "Rabobank",
+        "RBRBNL21" => "RegioBank",
+        "SNSBNL2A" => "SNS Bank",
+        "TRIONL2U" => "Triodos Bank"
+      )
     end
   end
 end
