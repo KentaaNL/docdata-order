@@ -5,9 +5,6 @@ AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
 
-# We target 2.4, but still want to support 2.0.
-Gemspec/RequiredRubyVersion:
-  Enabled: false
 
 Layout/LineLength:
   Enabled: false
