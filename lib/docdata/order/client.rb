@@ -18,7 +18,7 @@ module Docdata
 
         response = client.call(:create, message: CreateRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
 
-        raise Exception, response unless response.success?
+        raise Docdata::Order::Exception, response unless response.success?
 
         CreateResponse.new(params, response)
       end
@@ -28,7 +28,7 @@ module Docdata
 
         response = client.call(:start, message: StartRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
 
-        raise Exception, response unless response.success?
+        raise Docdata::Order::Exception, response unless response.success?
 
         StartResponse.new(params, response)
       end
@@ -38,7 +38,7 @@ module Docdata
 
         response = client.call(:status_extended, message: ExtendedStatusRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
 
-        raise Exception, response unless response.success?
+        raise Docdata::Order::Exception, response unless response.success?
 
         ExtendedStatusResponse.new(params, response)
       end
@@ -48,7 +48,7 @@ module Docdata
 
         response = client.call(:list_payment_methods, message: ListPaymentMethodsRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
 
-        raise Exception, response unless response.success?
+        raise Docdata::Order::Exception, response unless response.success?
 
         ListPaymentMethodsResponse.new(params, response)
       end

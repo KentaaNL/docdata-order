@@ -70,20 +70,10 @@ describe Docdata::Order::Response do
       Docdata::Order::StartResponse.new({}, response)
     end
 
-    context "with payment method iDEAL" do
-      let(:xml) { File.read("spec/fixtures/responses/start_success.xml") }
+    let(:xml) { File.read("spec/fixtures/responses/start_success.xml") }
 
-      it 'returns the payment ID' do
-        expect(response.payment_id).to eq("12345678")
-      end
-    end
-
-    context "with payment method SEPA direct debit" do
-      let(:xml) { File.read("spec/fixtures/responses/start_success.xml") }
-
-      it 'returns the payment ID' do
-        expect(response.payment_id).to eq("12345678")
-      end
+    it 'returns the payment ID' do
+      expect(response.payment_id).to eq("12345678")
     end
   end
 
@@ -281,7 +271,7 @@ describe Docdata::Order::Response do
 
     it 'returns the issuers for iDEAL' do
       ideal = response.payment_methods.find { |method| method.to_s == Docdata::Order::PaymentMethod::IDEAL }
-      expect(ideal).to be
+      expect(ideal).to be_a(Docdata::Order::PaymentMethod)
       expect(ideal.issuers).to eq(
         "ABNANL2A" => "ABN Amro Bank",
         "ASNBNL21" => "ASN Bank",

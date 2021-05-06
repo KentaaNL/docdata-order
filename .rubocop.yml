@@ -1,13 +1,23 @@
 # Docdata-order RuboCop configuration
 
+require:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
 AllCops:
+  NewCops: enable
   TargetRubyVersion: 2.4
   DisplayCopNames: true
   DisplayStyleGuide: true
+  Exclude:
+    - 'tmp/**/*'
+    - 'vendor/**/*'
 
 
 Layout/LineLength:
   Enabled: false
+
 
 Metrics/AbcSize:
   Max: 58
@@ -22,20 +32,22 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Enabled: false
 
+
+RSpec/DescribedClass:
+  EnforcedStyle: explicit
+
+RSpec/ExampleLength:
+  Max: 41
+
+RSpec/MultipleExpectations:
+  Max: 10
+
+
 Style/BlockDelimiters:
   Exclude:
     - 'spec/**/*.rb'
 
-Style/ExpandPathArguments:
-  Enabled: false
-
-Style/FormatStringToken:
-  Enabled: false
-
 Style/GuardClause:
-  Enabled: false
-
-Style/SafeNavigation:
   Enabled: false
 
 Style/StringLiterals:
