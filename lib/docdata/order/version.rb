@@ -2,6 +2,6 @@
 
 module Docdata
   module Order
-    VERSION = "1.1.0-beta2"
+    VERSION = "2.0.0-beta"
   end
 end
