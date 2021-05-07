@@ -222,6 +222,64 @@ describe Docdata::Order::Response do
       end
     end
 
+    context "with paid Bancontact order" do
+      let(:xml) { File.read("spec/fixtures/responses/status_success_bancontact_paid.xml") }
+
+      it 'returns the registered amount' do
+        expect(response.total_registered).to eq(1.0)
+      end
+
+      it 'returns the acquirer approved amount' do
+        expect(response.total_acquirer_approved).to eq(1.0)
+      end
+
+      it 'returns the payment ID' do
+        expect(response.payment_id).to eq("12345678")
+      end
+
+      it 'returns the payment method' do
+        expect(response.payment_method).to eq(Docdata::Order::PaymentMethod::BANCONTACT)
+      end
+
+      it 'returns the payment status' do
+        expect(response.paid?).to be true
+        expect(response.refunded?).to be false
+        expect(response.charged_back?).to be false
+        expect(response.reversed?).to be false
+        expect(response.cancelled?).to be false
+        expect(response.started?).to be false
+      end
+    end
+
+    context "with paid Sofort order" do
+      let(:xml) { File.read("spec/fixtures/responses/status_success_sofort_paid.xml") }
+
+      it 'returns the registered amount' do
+        expect(response.total_registered).to eq(1.0)
+      end
+
+      it 'returns the acquirer approved amount' do
+        expect(response.total_acquirer_approved).to eq(1.0)
+      end
+
+      it 'returns the payment ID' do
+        expect(response.payment_id).to eq("12345678")
+      end
+
+      it 'returns the payment method' do
+        expect(response.payment_method).to eq(Docdata::Order::PaymentMethod::SOFORT)
+      end
+
+      it 'returns the payment status' do
+        expect(response.paid?).to be true
+        expect(response.refunded?).to be false
+        expect(response.charged_back?).to be false
+        expect(response.reversed?).to be false
+        expect(response.cancelled?).to be false
+        expect(response.started?).to be false
+      end
+    end
+
     context "with order that has no payment" do
       let(:xml) { File.read("spec/fixtures/responses/status_success_without_payment.xml") }
 

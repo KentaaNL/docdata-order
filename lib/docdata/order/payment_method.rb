@@ -11,6 +11,8 @@ module Docdata
       AMERICAN_EXPRESS = "AMEX"
       PAYPAL = "PAYPAL_EXPRESS_CHECKOUT"
       SEPA_DIRECT_DEBIT = "SEPA_DIRECT_DEBIT"
+      BANCONTACT = "MISTERCASH"
+      SOFORT = "EBANKING"
 
       attr_accessor :payment_method, :issuers
 
