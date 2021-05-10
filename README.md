@@ -6,6 +6,21 @@
 
 Docdata::Order is a Ruby client for the Docdata Order API version 1.3.
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Initialization](#initialization)
+  - [Create an order](#create-an-order)
+  - [Start a payment order](#start-a-payment-order)
+  - [Retrieve status of an order](#retrieve-status-of-an-order)
+  - [Retrieve payment methods](#retrieve-payment-methods)
+  - [Refund a payment](#refund-a-payment)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -29,14 +44,14 @@ Or install it yourself as:
 Create a Docdata Order client and configure it with your merchant name and password:
 
 ```ruby
-order = Docdata::Order::Client.new("name", "password")
+client = Docdata::Order::Client.new("name", "password")
 ```
 
-The client is configured in live mode by default. To put the client in test mode, use `test: true` as third parameter.
+The client is configured to use the production environment by default. To use the Docdata test environment, add the parameter `test: true` when creating the client.
 
 ### Create an order
 
-Create a new order with the `create` method. You need to provide the following parameters to create the order:
+Create a new order with the `create` method. You need to provide at least the following parameters to create the order:
 
 ```ruby
 options = {
@@ -60,7 +75,7 @@ options = {
   }
 }
 
-response = order.create(options)
+response = client.create(options)
 
 if response.success?
   puts response.order_key
@@ -72,19 +87,37 @@ end
 
 The `redirect_url` in the response will redirect the user to the Docdata Payment Menu (One Page Checkout).
 
-To create an order and automatically redirect to the bank using iDEAL as payment method, use the parameters above including:
+#### Redirecting directly to the payment page
+
+For some payment methods you can skip the Docdata One Page Checkout and redirect directly to the payment page of the specified payment method.
+This works for the payment methods iDEAL, Sofort and PayPal. For iDEAL, you also need to provide the issuer:
 
 ```ruby
-response = order.create(options.merge(
+response = client.create(options.merge(
   payment_method: Docdata::Order::PaymentMethod::IDEAL,
   issuer_id: "INGBNL2A",
   return_url: "http://yourwebshop.nl/payment_return"
 ))
 ```
 
+#### Initial payment request
+
+If you want to use this order to do recurring payments then you must first make an initial payment request and provide an unique merchant reference.
+This reference should then be used when a making recurring payments.
+
+```ruby
+response = client.create(options.merge(
+  initial: {
+    merchant_reference: "12345"
+  }
+))
+```
+
+See below [Recurring payment request](#recurring-payment-request) how to make recurring payment requests.
+
 ### Start a payment order
 
-When using Webdirect, you can use `start` to start a payment order.
+When the One Page Checkout is not used (i.e. WebDirect) then you need to use `start` to start a payment order.
 
 ```ruby
 options = {
@@ -94,7 +127,7 @@ options = {
   consumer_iban: "NL44RABO0123456789"
 }
 
-response = order.start(options)
+response = client.start(options)
 
 if response.success?
   puts response.payment_id
@@ -103,18 +136,57 @@ else
 end
 ```
 
+#### Recurring payment request
+
+To start a recurring payment request, you need to provide the unique merchant reference, used in the initial payment request:
+
+```ruby
+response = client.start(options.merge(
+  recurring: {
+    merchant_reference: "12345"
+  }
+))
+```
+
 ### Retrieve status of an order
 
 To retrieve the status of an order, use `status` with the order key:
 
 ```ruby
-response = order.status(order_key: "12345")
+response = client.status(order_key: "12345")
 
 if response.success?
   puts response.paid?
 else
   puts response.error_message
 end
+```
+
+### Retrieve payment methods
+
+When an order has been created, you can retrieve the available payment methods (including issuers) by using `payment_methods` with the order key:
+
+```ruby
+response = client.payment_methods(order_key: "12345")
+
+if response.success?
+  puts response.payment_methods
+else
+  puts response.error_message
+end
+```
+
+### Refund a payment
+
+To refund a payment, use `refund` with the payment ID:
+
+```ruby
+response = client.refund(payment_id: "12345")
+
+if !response.success?
+  puts response.error_message
+end
+
 ```
 
 ## Development
