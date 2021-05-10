@@ -61,6 +61,19 @@ describe Docdata::Order::Response do
         expect(response.redirect_url).to eq("https://secure.docdatapayments.com/ps/menu?command=show_payment_cluster&merchant_name=12345&client_language=nl&payment_cluster_key=098F6BCD4621D373CADE4E832627B4F6&default_pm=PAYPAL_EXPRESS_CHECKOUT&default_act=true")
       end
     end
+
+    context "with payment method Sofort" do
+      let(:options) { { merchant: { name: "12345" }, shopper: { language: "nl" }, payment_method: Docdata::Order::PaymentMethod::SOFORT } }
+      let(:xml) { File.read("spec/fixtures/responses/create_success.xml") }
+
+      it 'returns the order key' do
+        expect(response.order_key).to eq("098F6BCD4621D373CADE4E832627B4F6")
+      end
+
+      it 'returns the redirect URL' do
+        expect(response.redirect_url).to eq("https://secure.docdatapayments.com/ps/menu?command=show_payment_cluster&merchant_name=12345&client_language=nl&payment_cluster_key=098F6BCD4621D373CADE4E832627B4F6&default_pm=EBANKING&default_act=true")
+      end
+    end
   end
 
   describe "start" do

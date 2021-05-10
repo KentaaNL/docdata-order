@@ -63,7 +63,7 @@ module Docdata
           when PaymentMethod::IDEAL
             params[:default_act] = true
             params[:ideal_issuer_id] = issuer_id if issuer_id
-          when PaymentMethod::PAYPAL
+          when PaymentMethod::PAYPAL, PaymentMethod::SOFORT
             params[:default_act] = true
           end
         end
