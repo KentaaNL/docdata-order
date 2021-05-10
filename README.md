@@ -11,8 +11,12 @@ Docdata::Order is a Ruby client for the Docdata Order API version 1.3.
 - [Installation](#installation)
 - [Usage](#usage)
   - [Initialization](#initialization)
+    - [Subject merchant](#subject-merchant)
   - [Create an order](#create-an-order)
+    - [Redirecting directly to the payment page](#redirecting-directly-to-the-payment-page)
+    - [Initial payment request](#initial-payment-request)
   - [Start a payment order](#start-a-payment-order)
+    - [Recurring payment request](#recurring-payment-request)
   - [Retrieve status of an order](#retrieve-status-of-an-order)
   - [Retrieve payment methods](#retrieve-payment-methods)
   - [Refund a payment](#refund-a-payment)
@@ -48,6 +52,17 @@ client = Docdata::Order::Client.new("name", "password")
 ```
 
 The client is configured to use the production environment by default. To use the Docdata test environment, add the parameter `test: true` when creating the client.
+
+#### Subject merchant
+
+If you want to use a merchant on whose behalf the requests should be executed (subject merchant), then you can add this to the parameters:
+
+```ruby
+client = Docdata::Order::Client.new("name", "password", subject_merchant: {
+  name: "subname"
+  token: "12345678"
+})
+```
 
 ### Create an order
 
@@ -113,7 +128,7 @@ response = client.create(options.merge(
 ))
 ```
 
-See below [Recurring payment request](#recurring-payment-request) how to make recurring payment requests.
+See [Recurring payment request](#recurring-payment-request) how to make recurring payment requests.
 
 ### Start a payment order
 
