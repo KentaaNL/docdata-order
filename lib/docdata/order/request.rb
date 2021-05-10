@@ -356,6 +356,45 @@ module Docdata
       end
     end
 
+    # Create a refund request in the DocData system.
+    class RefundRequest < Request
+      def build_request(builder)
+        # The payment ID on which the refund request needs to be performed.
+        builder.paymentId(payment_id)
+
+        # Merchant's internal ID for identifying this refund.
+        builder.merchantRefundReference(refund_reference) if refund_reference
+
+        # Optional amount to refund.
+        builder.amount(amount, currency: currency) if amount
+
+        # Optional description for this refund.
+        builder.description(description) if description
+      end
+
+      private
+
+      def payment_id
+        options.fetch(:payment_id)
+      end
+
+      def refund_reference
+        options[:refund_reference]
+      end
+
+      def amount
+        Amount.new(options[:amount]).to_cents if options[:amount]
+      end
+
+      def currency
+        options[:currency] || "EUR"
+      end
+
+      def description
+        options[:description]
+      end
+    end
+
     # Retrieve available payment methods for an Order.
     class ListPaymentMethodsRequest < Request
       def build_request(builder)

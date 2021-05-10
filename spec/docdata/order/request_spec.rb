@@ -159,8 +159,39 @@ describe Docdata::Order::Request do
   end
 
   describe "status" do
-    it "creates a XML message using all available parameters" do
+    it "creates a XML message with a status request" do
       request = Docdata::Order::ExtendedStatusRequest.new(
+        merchant: {
+          name: "name",
+          password: "password"
+        },
+        order_key: "12345"
+      )
+
+      expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentOrderKey>12345</paymentOrderKey><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+    end
+  end
+
+  describe "refund" do
+    it "creates a XML message with a refund request" do
+      request = Docdata::Order::RefundRequest.new(
+        merchant: {
+          name: "name",
+          password: "password"
+        },
+        payment_id: "12345",
+        refund_reference: "ABCDEF1234567890",
+        amount: "10",
+        currency: "USD"
+      )
+
+      expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentId>12345</paymentId><merchantRefundReference>ABCDEF1234567890</merchantRefundReference><amount currency="USD">1000</amount><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+    end
+  end
+
+  describe "payment_methods" do
+    it "creates a XML message with a list payment methods request" do
+      request = Docdata::Order::ListPaymentMethodsRequest.new(
         merchant: {
           name: "name",
           password: "password"

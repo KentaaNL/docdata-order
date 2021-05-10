@@ -43,6 +43,16 @@ module Docdata
         ExtendedStatusResponse.new(params, response)
       end
 
+      def refund(options = {})
+        params = @options.merge(options)
+
+        response = client.call(:refund, message: RefundRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
+
+        raise Docdata::Order::Exception, response unless response.success?
+
+        RefundResponse.new(params, response)
+      end
+
       def payment_methods(options = {})
         params = @options.merge(options)
 

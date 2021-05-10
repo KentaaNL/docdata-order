@@ -163,6 +163,38 @@ describe Docdata::Order::Client do
     end
   end
 
+  describe '#refund' do
+    it 'raises an exception when parameters are missing' do
+      expect {
+        client.refund
+      }.to raise_error(KeyError)
+    end
+
+    it 'successfully refunds a payment' do
+      data = File.read("spec/fixtures/responses/refund_success.xml")
+      stub_request(:post, "https://secure.docdatapayments.com/ps/services/paymentservice/1_3").to_return(status: 200, body: data)
+
+      response = client.refund(payment_id: "12345678")
+
+      expect(response.success?).to be true
+      expect(response.error?).to be false
+      expect(response.error_code).to be nil
+      expect(response.error_message).to be nil
+    end
+
+    it 'returns an error when refunding a payment fails' do
+      data = File.read("spec/fixtures/responses/refund_error.xml")
+      stub_request(:post, "https://secure.docdatapayments.com/ps/services/paymentservice/1_3").to_return(status: 200, body: data)
+
+      response = client.refund(payment_id: "12345678")
+
+      expect(response.success?).to be false
+      expect(response.error?).to be true
+      expect(response.error_code).to eq("REQUEST_DATA_INCORRECT")
+      expect(response.error_message).to eq("No amount captured available to refund.")
+    end
+  end
+
   describe '#payment_methods' do
     it 'raises an exception when parameters are missing' do
       expect {

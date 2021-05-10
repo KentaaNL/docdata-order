@@ -328,6 +328,25 @@ module Docdata
       end
     end
 
+    # Response to a refund operation.
+    class RefundResponse < Response
+      def data
+        body[:refund_response]
+      end
+
+      def success?
+        data.key?(:refund_success)
+      end
+
+      def error?
+        data.key?(:refund_errors)
+      end
+
+      def errors
+        data[:refund_errors]
+      end
+    end
+
     # Response to a list payment methods operation.
     class ListPaymentMethodsResponse < Response
       def data
