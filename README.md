@@ -59,7 +59,7 @@ If you want to use a merchant on whose behalf the requests should be executed (s
 
 ```ruby
 client = Docdata::Order::Client.new("name", "password", subject_merchant: {
-  name: "subname"
+  name: "subname",
   token: "12345678"
 })
 ```
