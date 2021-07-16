@@ -74,6 +74,19 @@ describe Docdata::Order::Response do
         expect(response.redirect_url).to eq("https://secure.docdatapayments.com/ps/menu?command=show_payment_cluster&merchant_name=12345&client_language=nl&payment_cluster_key=098F6BCD4621D373CADE4E832627B4F6&default_pm=EBANKING&default_act=true")
       end
     end
+
+    context "with payment method Giropay" do
+      let(:options) { { merchant: { name: "12345" }, shopper: { language: "nl" }, payment_method: Docdata::Order::PaymentMethod::GIROPAY } }
+      let(:xml) { File.read("spec/fixtures/responses/create_success.xml") }
+
+      it 'returns the order key' do
+        expect(response.order_key).to eq("098F6BCD4621D373CADE4E832627B4F6")
+      end
+
+      it 'returns the redirect URL' do
+        expect(response.redirect_url).to eq("https://secure.docdatapayments.com/ps/menu?command=show_payment_cluster&merchant_name=12345&client_language=nl&payment_cluster_key=098F6BCD4621D373CADE4E832627B4F6&default_pm=GIROPAY")
+      end
+    end
   end
 
   describe "start" do
@@ -281,6 +294,35 @@ describe Docdata::Order::Response do
 
       it 'returns the payment method' do
         expect(response.payment_method).to eq(Docdata::Order::PaymentMethod::SOFORT)
+      end
+
+      it 'returns the payment status' do
+        expect(response.paid?).to be true
+        expect(response.refunded?).to be false
+        expect(response.charged_back?).to be false
+        expect(response.reversed?).to be false
+        expect(response.cancelled?).to be false
+        expect(response.started?).to be false
+      end
+    end
+
+    context "with paid Giropay order" do
+      let(:xml) { File.read("spec/fixtures/responses/status_success_giropay_paid.xml") }
+
+      it 'returns the registered amount' do
+        expect(response.total_registered).to eq(1.0)
+      end
+
+      it 'returns the acquirer approved amount' do
+        expect(response.total_acquirer_approved).to eq(1.0)
+      end
+
+      it 'returns the payment ID' do
+        expect(response.payment_id).to eq("12345678")
+      end
+
+      it 'returns the payment method' do
+        expect(response.payment_method).to eq(Docdata::Order::PaymentMethod::GIROPAY)
       end
 
       it 'returns the payment status' do

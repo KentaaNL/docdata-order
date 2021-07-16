@@ -13,6 +13,7 @@ module Docdata
       SEPA_DIRECT_DEBIT = "SEPA_DIRECT_DEBIT"
       BANCONTACT = "MISTERCASH"
       SOFORT = "EBANKING"
+      GIROPAY = "GIROPAY"
 
       attr_accessor :payment_method, :issuers
 
