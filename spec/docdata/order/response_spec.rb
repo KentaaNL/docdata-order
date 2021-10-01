@@ -101,6 +101,10 @@ describe Docdata::Order::Response do
     it 'returns the payment ID' do
       expect(response.payment_id).to eq("12345678")
     end
+
+    it 'returns the payment status' do
+      expect(response.payment_status).to eq("AUTHORIZED")
+    end
   end
 
   describe "status" do

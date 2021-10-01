@@ -154,6 +154,10 @@ module Docdata
       def payment_id
         payment_success[:id] if payment_success
       end
+
+      def payment_status
+        payment_success[:status] if payment_success
+      end
     end
 
     # Response to a extended status operation.
