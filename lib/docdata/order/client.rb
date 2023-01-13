@@ -16,9 +16,7 @@ module Docdata
       def create(options = {})
         params = @options.merge(options)
 
-        response = client.call(:create, message: CreateRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = client_call(:create, CreateRequest.new(params))
 
         CreateResponse.new(params, response)
       end
@@ -26,9 +24,7 @@ module Docdata
       def start(options = {})
         params = @options.merge(options)
 
-        response = client.call(:start, message: StartRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = client_call(:start, StartRequest.new(params))
 
         StartResponse.new(params, response)
       end
@@ -36,9 +32,7 @@ module Docdata
       def status(options = {})
         params = @options.merge(options)
 
-        response = client.call(:status_extended, message: ExtendedStatusRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = client_call(:status_extended, ExtendedStatusRequest.new(params))
 
         ExtendedStatusResponse.new(params, response)
       end
@@ -46,9 +40,7 @@ module Docdata
       def refund(options = {})
         params = @options.merge(options)
 
-        response = client.call(:refund, message: RefundRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = client_call(:refund, RefundRequest.new(params))
 
         RefundResponse.new(params, response)
       end
@@ -56,14 +48,22 @@ module Docdata
       def payment_methods(options = {})
         params = @options.merge(options)
 
-        response = client.call(:list_payment_methods, message: ListPaymentMethodsRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = client_call(:list_payment_methods, ListPaymentMethodsRequest.new(params))
 
         ListPaymentMethodsResponse.new(params, response)
       end
 
       private
+
+      def client_call(operation_name, message)
+        response = client.call(operation_name, message: message, attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
+
+        raise Docdata::Order::InvalidResponseException, response unless response.success?
+
+        response
+      rescue Savon::Error => e
+        raise Docdata::Order::ApiException, e
+      end
 
       def client
         @client ||= begin

@@ -17,6 +17,33 @@ describe Docdata::Order::Client do
       }.to raise_error(KeyError)
     end
 
+    it 'raises an exception when HTTPError' do
+      stub_request(:get, "https://secure.docdatapayments.com/ps/services/paymentservice/1_3?wsdl").to_return(status: 502, body: "Bad Gateway", headers: {})
+
+      expect {
+        client.create(
+          amount: "10",
+          order_reference: SecureRandom.hex,
+          description: "Test order",
+          profile: "foobar",
+          shopper: {
+            first_name: "John",
+            last_name: "Doe",
+            email: "john.doe@example.com",
+            language: "en",
+            gender: Docdata::Order::Gender::MALE
+          },
+          address: {
+            street: "Mainstreet",
+            house_number: "42",
+            postal_code: "1234AA",
+            city: "Big city",
+            country: "NL"
+          }
+        )
+      }.to raise_error(Docdata::Order::ApiException)
+    end
+
     it 'successfully creates an order' do
       data = File.read("spec/fixtures/responses/create_success.xml")
       stub_request(:post, "https://secure.docdatapayments.com/ps/services/paymentservice/1_3").to_return(status: 200, body: data)
