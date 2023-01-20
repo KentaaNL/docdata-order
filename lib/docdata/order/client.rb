@@ -15,59 +15,50 @@ module Docdata
 
       def create(options = {})
         params = @options.merge(options)
-
-        response = client.call(:create, message: CreateRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = call(:create, CreateRequest.new(params))
 
         CreateResponse.new(params, response)
       end
 
       def start(options = {})
         params = @options.merge(options)
-
-        response = client.call(:start, message: StartRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = call(:start, StartRequest.new(params))
 
         StartResponse.new(params, response)
       end
 
       def status(options = {})
         params = @options.merge(options)
-
-        response = client.call(:status_extended, message: ExtendedStatusRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = call(:status_extended, ExtendedStatusRequest.new(params))
 
         ExtendedStatusResponse.new(params, response)
       end
 
       def refund(options = {})
         params = @options.merge(options)
-
-        response = client.call(:refund, message: RefundRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = call(:refund, RefundRequest.new(params))
 
         RefundResponse.new(params, response)
       end
 
       def payment_methods(options = {})
         params = @options.merge(options)
-
-        response = client.call(:list_payment_methods, message: ListPaymentMethodsRequest.new(params), attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
-
-        raise Docdata::Order::Exception, response unless response.success?
+        response = call(:list_payment_methods, ListPaymentMethodsRequest.new(params))
 
         ListPaymentMethodsResponse.new(params, response)
       end
 
       private
 
+      def call(operation, message)
+        client.call(operation, message: message, attributes: { xmlns: XMLNS_DDP, version: DDP_VERSION })
+      rescue Savon::Error => e
+        raise Docdata::Order::Exception, e.message
+      end
+
       def client
         @client ||= begin
-          params = { wsdl: wsdl_url, raise_errors: false, namespace_identifier: nil, namespaces: { 'xmlns:ddp' => XMLNS_DDP } }
+          params = { wsdl: wsdl_url, raise_errors: true, namespace_identifier: nil, namespaces: { 'xmlns:ddp' => XMLNS_DDP } }
 
           params.merge!(log: true, log_level: :debug, pretty_print_xml: true) if @options[:debug]
 
