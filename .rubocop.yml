@@ -33,9 +33,6 @@ Metrics/MethodLength:
   Enabled: false
 
 
-RSpec/DescribedClass:
-  EnforcedStyle: explicit
-
 RSpec/ExampleLength:
   Max: 41
 

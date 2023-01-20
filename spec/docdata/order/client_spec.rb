@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Docdata::Order::Client do
-  subject(:client) { Docdata::Order::Client.new('12345', '12345') }
+  subject(:client) { described_class.new('12345', '12345') }
 
   before do
     wsdl = File.read('spec/fixtures/wsdl.xml')
