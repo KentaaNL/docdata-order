@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Docdata::Order::Request do
+RSpec.describe Docdata::Order::Request do
   describe 'create' do
     it 'creates a XML message using all available parameters' do
       request = Docdata::Order::CreateRequest.new(

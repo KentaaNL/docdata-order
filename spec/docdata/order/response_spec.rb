@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Docdata::Order::Response do
+RSpec.describe Docdata::Order::Response do
   let(:savon_response) { Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new) }
   let(:http) { instance_double(HTTPI::Response, body: xml, error?: false) }
 

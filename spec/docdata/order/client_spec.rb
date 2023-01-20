@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Docdata::Order::Client do
+RSpec.describe Docdata::Order::Client do
   subject(:client) { described_class.new('12345', '12345') }
 
   before do

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Docdata::Order::Amount do
+RSpec.describe Docdata::Order::Amount do
   describe 'from_cents' do
     it 'converts an Integer to an amount' do
       expect(described_class.from_cents(4200).to_d).to eq(42)
