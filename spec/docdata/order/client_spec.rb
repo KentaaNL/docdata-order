@@ -44,8 +44,8 @@ describe Docdata::Order::Client do
 
       expect(response.success?).to be true
       expect(response.error?).to be false
-      expect(response.error_code).to be nil
-      expect(response.error_message).to be nil
+      expect(response.error_code).to be_nil
+      expect(response.error_message).to be_nil
 
       expect(response.order_key).to eq("098F6BCD4621D373CADE4E832627B4F6")
     end
@@ -102,8 +102,8 @@ describe Docdata::Order::Client do
 
       expect(response.success?).to be true
       expect(response.error?).to be false
-      expect(response.error_code).to be nil
-      expect(response.error_message).to be nil
+      expect(response.error_code).to be_nil
+      expect(response.error_message).to be_nil
     end
 
     it 'returns an error starting an order fails' do
@@ -139,8 +139,8 @@ describe Docdata::Order::Client do
 
       expect(response.success?).to be true
       expect(response.error?).to be false
-      expect(response.error_code).to be nil
-      expect(response.error_message).to be nil
+      expect(response.error_code).to be_nil
+      expect(response.error_message).to be_nil
 
       expect(response.paid?).to be false
       expect(response.refunded?).to be false
@@ -178,8 +178,8 @@ describe Docdata::Order::Client do
 
       expect(response.success?).to be true
       expect(response.error?).to be false
-      expect(response.error_code).to be nil
-      expect(response.error_message).to be nil
+      expect(response.error_code).to be_nil
+      expect(response.error_message).to be_nil
     end
 
     it 'returns an error when refunding a payment fails' do
@@ -210,8 +210,8 @@ describe Docdata::Order::Client do
 
       expect(response.success?).to be true
       expect(response.error?).to be false
-      expect(response.error_code).to be nil
-      expect(response.error_message).to be nil
+      expect(response.error_code).to be_nil
+      expect(response.error_message).to be_nil
 
       expect(response.payment_methods).to be_a(Array)
     end

@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in docdata-order.gemspec
 gemspec
 
-gem 'rubocop', '~> 1.12.0'
-gem 'rubocop-performance', '~> 1.10.2'
-gem 'rubocop-rake', '~> 0.5.1'
-gem 'rubocop-rspec', '~> 2.2.0'
+gem 'rubocop', '~> 1.28'
+gem 'rubocop-performance'
+gem 'rubocop-rake'
+gem 'rubocop-rspec'

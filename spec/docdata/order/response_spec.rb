@@ -3,12 +3,11 @@
 require "spec_helper"
 
 describe Docdata::Order::Response do
+  let(:savon_response) { Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new) }
+  let(:http) { instance_double(HTTPI::Response, body: xml, error?: false) }
+
   describe "create" do
-    subject(:response) do
-      http = OpenStruct.new(body: xml)
-      response = Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new)
-      Docdata::Order::CreateResponse.new(options, response)
-    end
+    subject(:response) { Docdata::Order::CreateResponse.new(options, savon_response) }
 
     context "with payment method iDEAL" do
       let(:options) { { merchant: { name: "12345" }, shopper: { language: "nl" }, payment_method: Docdata::Order::PaymentMethod::IDEAL, issuer_id: "ABNANL2A" } }
@@ -90,11 +89,7 @@ describe Docdata::Order::Response do
   end
 
   describe "start" do
-    subject(:response) do
-      http = OpenStruct.new(body: xml)
-      response = Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new)
-      Docdata::Order::StartResponse.new({}, response)
-    end
+    subject(:response) { Docdata::Order::StartResponse.new({}, savon_response) }
 
     let(:xml) { File.read("spec/fixtures/responses/start_success.xml") }
 
@@ -108,11 +103,7 @@ describe Docdata::Order::Response do
   end
 
   describe "status" do
-    subject(:response) do
-      http = OpenStruct.new(body: xml)
-      response = Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new)
-      Docdata::Order::ExtendedStatusResponse.new({}, response)
-    end
+    subject(:response) { Docdata::Order::ExtendedStatusResponse.new({}, savon_response) }
 
     context "with cancelled iDEAL order" do
       let(:xml) { File.read("spec/fixtures/responses/status_success_ideal_cancelled.xml") }
@@ -242,9 +233,9 @@ describe Docdata::Order::Response do
       end
 
       it 'returns the consumer details' do
-        expect(response.consumer_name).to be nil
+        expect(response.consumer_name).to be_nil
         expect(response.consumer_iban).to eq("NL44RABO0123456789")
-        expect(response.consumer_bic).to be nil
+        expect(response.consumer_bic).to be_nil
       end
 
       it 'returns the mandate number' do
@@ -347,11 +338,11 @@ describe Docdata::Order::Response do
       end
 
       it 'returns no payment ID' do
-        expect(response.payment_id).to be nil
+        expect(response.payment_id).to be_nil
       end
 
       it 'returns no payment method' do
-        expect(response.payment_method).to be nil
+        expect(response.payment_method).to be_nil
       end
 
       it 'returns the payment status' do
@@ -364,19 +355,15 @@ describe Docdata::Order::Response do
       end
 
       it 'returns no consumer details' do
-        expect(response.consumer_name).to be nil
-        expect(response.consumer_iban).to be nil
-        expect(response.consumer_bic).to be nil
+        expect(response.consumer_name).to be_nil
+        expect(response.consumer_iban).to be_nil
+        expect(response.consumer_bic).to be_nil
       end
     end
   end
 
   describe "payment_methods" do
-    subject(:response) do
-      http = OpenStruct.new(body: xml)
-      response = Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new)
-      Docdata::Order::ListPaymentMethodsResponse.new({}, response)
-    end
+    subject(:response) { Docdata::Order::ListPaymentMethodsResponse.new({}, savon_response) }
 
     let(:xml) { File.read("spec/fixtures/responses/payment_methods_success.xml") }
 
