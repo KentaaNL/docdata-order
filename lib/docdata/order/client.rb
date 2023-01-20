@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require "savon"
+require 'savon'
 
 module Docdata
   module Order
     # Client for the Docdata Order API.
     class Client
-      XMLNS_DDP = "http://www.docdatapayments.com/services/paymentservice/1_3/"
-      DDP_VERSION = "1.3"
+      XMLNS_DDP = 'http://www.docdatapayments.com/services/paymentservice/1_3/'
+      DDP_VERSION = '1.3'
 
       def initialize(name, password, options = {})
         @options = options.merge(merchant: { name: name, password: password })
@@ -67,7 +67,7 @@ module Docdata
 
       def client
         @client ||= begin
-          params = { wsdl: wsdl_url, raise_errors: false, namespace_identifier: nil, namespaces: { "xmlns:ddp" => XMLNS_DDP } }
+          params = { wsdl: wsdl_url, raise_errors: false, namespace_identifier: nil, namespaces: { 'xmlns:ddp' => XMLNS_DDP } }
 
           params.merge!(log: true, log_level: :debug, pretty_print_xml: true) if @options[:debug]
 

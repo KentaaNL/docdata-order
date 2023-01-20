@@ -3,9 +3,9 @@
 module Docdata
   module Order
     module Gender
-      MALE = "M"
-      FEMALE = "F"
-      UNDEFINED = "U"
+      MALE = 'M'
+      FEMALE = 'F'
+      UNDEFINED = 'U'
     end
   end
 end

@@ -31,7 +31,7 @@ module Docdata
 
       # Convert the amount to a String with 2 decimals.
       def to_s
-        format("%.2f", @amount)
+        format('%.2f', @amount)
       end
     end
   end

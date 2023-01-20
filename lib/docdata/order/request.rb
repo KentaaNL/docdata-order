@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "builder/xmlmarkup"
-require "securerandom"
+require 'builder/xmlmarkup'
+require 'securerandom'
 
 module Docdata
   module Order
@@ -40,11 +40,11 @@ module Docdata
         # This info is useful when debugging troubleshooting technical integration issues.
         builder.integrationInfo do |integration|
           # The name of the plugin used to contact this webservice.
-          integration.webshopPlugin("docdata-order")
+          integration.webshopPlugin('docdata-order')
           # The version of the plugin used to contact this webservice.
           integration.webshopPluginVersion(Docdata::Order::VERSION)
           # The name of the plugin creator used to contact this webservice.
-          integration.integratorName("Kentaa")
+          integration.integratorName('Kentaa')
           # The programming language used to contact this webservice.
           integration.programmingLanguage("Ruby #{RUBY_VERSION}")
           # The operating system from which this webservice is contacted.
@@ -88,7 +88,7 @@ module Docdata
       end
 
       def subject_merchant_fee_moment
-        subject_merchant_fee[:moment] || "FULLY_PAID"
+        subject_merchant_fee[:moment] || 'FULLY_PAID'
       end
 
       def subject_merchant_fee_description
@@ -100,7 +100,7 @@ module Docdata
       end
 
       def subject_merchant_fee_currency
-        subject_merchant_fee[:currency] || "EUR"
+        subject_merchant_fee[:currency] || 'EUR'
       end
 
       def build_request
@@ -254,7 +254,7 @@ module Docdata
       end
 
       def currency
-        options[:currency] || "EUR"
+        options[:currency] || 'EUR'
       end
 
       def description
@@ -387,7 +387,7 @@ module Docdata
       end
 
       def currency
-        options[:currency] || "EUR"
+        options[:currency] || 'EUR'
       end
 
       def description

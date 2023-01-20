@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "uri"
+require 'uri'
 
 module Docdata
   module Order
@@ -22,7 +22,7 @@ module Docdata
       end
 
       def error_code
-        errors[:error].attributes["code"] if errors
+        errors[:error].attributes['code'] if errors
       end
     end
 
@@ -50,7 +50,7 @@ module Docdata
 
       def redirect_url
         params = {
-          command: "show_payment_cluster",
+          command: 'show_payment_cluster',
           merchant_name: merchant_name,
           client_language: client_language,
           payment_cluster_key: order_key
@@ -70,10 +70,10 @@ module Docdata
 
         if return_url
           params.merge!(
-            return_url_success: build_return_url("success"),
-            return_url_canceled: build_return_url("cancelled"),
-            return_url_pending: build_return_url("pending"),
-            return_url_error: build_return_url("error")
+            return_url_success: build_return_url('success'),
+            return_url_canceled: build_return_url('cancelled'),
+            return_url_pending: build_return_url('pending'),
+            return_url_error: build_return_url('error')
           )
         end
 
@@ -119,7 +119,7 @@ module Docdata
 
       def build_return_url(status)
         uri = URI.parse(return_url)
-        query = URI.decode_www_form(uri.query || "") << ["status", status]
+        query = URI.decode_www_form(uri.query || '') << ['status', status]
         uri.query = URI.encode_www_form(query)
         uri.to_s
       end
@@ -281,12 +281,12 @@ module Docdata
       end
 
       def started?
-        (authorization_status == "NEW" || authorization_status == "STARTED" ||
-          (total_captured.zero? && total_acquirer_approved.zero?)) && authorization_status != "CANCELED"
+        (authorization_status == 'NEW' || authorization_status == 'STARTED' ||
+          (total_captured.zero? && total_acquirer_approved.zero?)) && authorization_status != 'CANCELED'
       end
 
       def cancelled?
-        authorization_status == "CANCELED"
+        authorization_status == 'CANCELED'
       end
 
       def consumer_iban
@@ -372,7 +372,7 @@ module Docdata
       def payment_methods
         data[:list_payment_methods_success][:payment_method].map do |payment_method|
           method = PaymentMethod.new(payment_method[:name])
-          method.issuers = payment_method[:issuers][:issuer].map { |issuer| [issuer.attributes["id"], issuer.to_s] }.to_h if payment_method.key?(:issuers)
+          method.issuers = payment_method[:issuers][:issuer].map { |issuer| [issuer.attributes['id'], issuer.to_s] }.to_h if payment_method.key?(:issuers)
           method
         end
       end
