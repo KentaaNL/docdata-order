@@ -4,11 +4,11 @@
       <statusSuccess>
         <success code="SUCCESS">Operation successful.</success>
         <report>
-          <approximateTotals exchangedTo="EUR" exchangeRateDate="2017-05-22 12:31:01">
-            <totalRegistered>100</totalRegistered>
+          <approximateTotals exchangedTo="SEK" exchangeRateDate="2017-05-22 12:31:01">
+            <totalRegistered>1000</totalRegistered>
             <totalShopperPending>0</totalShopperPending>
             <totalAcquirerPending>0</totalAcquirerPending>
-            <totalAcquirerApproved>100</totalAcquirerApproved>
+            <totalAcquirerApproved>1000</totalAcquirerApproved>
             <totalCaptured>0</totalCaptured>
             <totalRefunded>0</totalRefunded>
             <totalChargedback>0</totalChargedback>

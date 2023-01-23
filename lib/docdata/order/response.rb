@@ -228,8 +228,20 @@ module Docdata
         authorization[:status] if authorization
       end
 
+      def authorization_amount
+        to_decimal(authorization[:amount]) if authorization
+      end
+
+      def authorization_currency
+        authorization[:amount].attributes['currency'] if authorization
+      end
+
       def approximate_totals
         report[:approximate_totals]
+      end
+
+      def exchanged_to
+        report[:approximate_totals][:@exchanged_to]
       end
 
       def total_registered

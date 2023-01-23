@@ -108,6 +108,10 @@ RSpec.describe Docdata::Order::Response do
     context 'with cancelled iDEAL order' do
       let(:xml) { File.read('spec/fixtures/responses/status_success_ideal_cancelled.xml') }
 
+      it 'returns the exchanged to currency' do
+        expect(response.exchanged_to).to eq('EUR')
+      end
+
       it 'returns the registered amount' do
         expect(response.total_registered).to eq(1.0)
       end
@@ -138,6 +142,18 @@ RSpec.describe Docdata::Order::Response do
 
     context 'with paid iDEAL order' do
       let(:xml) { File.read('spec/fixtures/responses/status_success_ideal_paid.xml') }
+
+      it 'returns the authorized amount' do
+        expect(response.authorization_amount).to eq(1.0)
+      end
+
+      it 'returns the authorized currency' do
+        expect(response.authorization_currency).to eq('EUR')
+      end
+
+      it 'returns the exchanged to currency' do
+        expect(response.exchanged_to).to eq('EUR')
+      end
 
       it 'returns the registered amount' do
         expect(response.total_registered).to eq(1.0)
@@ -178,12 +194,24 @@ RSpec.describe Docdata::Order::Response do
     context 'with paid AMEX order' do
       let(:xml) { File.read('spec/fixtures/responses/status_success_amex_paid.xml') }
 
+      it 'returns the authorized amount' do
+        expect(response.authorization_amount).to eq(1.0)
+      end
+
+      it 'returns the authorized currency' do
+        expect(response.authorization_currency).to eq('EUR')
+      end
+
+      it 'returns the exchanged to currency' do
+        expect(response.exchanged_to).to eq('SEK')
+      end
+
       it 'returns the registered amount' do
-        expect(response.total_registered).to eq(1.0)
+        expect(response.total_registered).to eq(10.0)
       end
 
       it 'returns the acquirer approved amount' do
-        expect(response.total_acquirer_approved).to eq(1.0)
+        expect(response.total_acquirer_approved).to eq(10.0)
       end
 
       it 'returns the payment ID' do
@@ -206,6 +234,18 @@ RSpec.describe Docdata::Order::Response do
 
     context 'with pending SEPA direct debit order' do
       let(:xml) { File.read('spec/fixtures/responses/status_success_sepa_dd_pending.xml') }
+
+      it 'returns the authorized amount' do
+        expect(response.authorization_amount).to eq(1.0)
+      end
+
+      it 'returns the authorized currency' do
+        expect(response.authorization_currency).to eq('EUR')
+      end
+
+      it 'returns the exchanged to currency' do
+        expect(response.exchanged_to).to eq('EUR')
+      end
 
       it 'returns the registered amount' do
         expect(response.total_registered).to eq(1.0)
@@ -246,6 +286,18 @@ RSpec.describe Docdata::Order::Response do
     context 'with paid Bancontact order' do
       let(:xml) { File.read('spec/fixtures/responses/status_success_bancontact_paid.xml') }
 
+      it 'returns the authorized amount' do
+        expect(response.authorization_amount).to eq(1.0)
+      end
+
+      it 'returns the authorized currency' do
+        expect(response.authorization_currency).to eq('EUR')
+      end
+
+      it 'returns the exchanged to currency' do
+        expect(response.exchanged_to).to eq('EUR')
+      end
+
       it 'returns the registered amount' do
         expect(response.total_registered).to eq(1.0)
       end
@@ -275,6 +327,18 @@ RSpec.describe Docdata::Order::Response do
     context 'with paid Sofort order' do
       let(:xml) { File.read('spec/fixtures/responses/status_success_sofort_paid.xml') }
 
+      it 'returns the authorized amount' do
+        expect(response.authorization_amount).to eq(1.0)
+      end
+
+      it 'returns the authorized currency' do
+        expect(response.authorization_currency).to eq('EUR')
+      end
+
+      it 'returns the exchanged to currency' do
+        expect(response.exchanged_to).to eq('EUR')
+      end
+
       it 'returns the registered amount' do
         expect(response.total_registered).to eq(1.0)
       end
@@ -303,6 +367,18 @@ RSpec.describe Docdata::Order::Response do
 
     context 'with paid Giropay order' do
       let(:xml) { File.read('spec/fixtures/responses/status_success_giropay_paid.xml') }
+
+      it 'returns the authorized amount' do
+        expect(response.authorization_amount).to eq(1.0)
+      end
+
+      it 'returns the authorized currency' do
+        expect(response.authorization_currency).to eq('EUR')
+      end
+
+      it 'returns the exchanged to currency' do
+        expect(response.exchanged_to).to eq('EUR')
+      end
 
       it 'returns the registered amount' do
         expect(response.total_registered).to eq(1.0)
