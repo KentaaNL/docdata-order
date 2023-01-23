@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Docdata::Order::Response do
   let(:savon_response) { Savon::Response.new(http, Savon::GlobalOptions.new, Savon::LocalOptions.new) }
-  let(:http) { instance_double(HTTPI::Response, body: xml, error?: false) }
+  let(:http) { instance_double(HTTPI::Response, headers: {}, body: xml, error?: false) }
 
   describe 'create' do
     subject(:response) { Docdata::Order::CreateResponse.new(options, savon_response) }
