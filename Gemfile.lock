@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    docdata-order (2.1.0)
+    docdata-order (2.2.0)
       savon (>= 2.0, < 3.0)
 
 GEM
