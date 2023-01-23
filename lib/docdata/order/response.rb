@@ -372,7 +372,7 @@ module Docdata
       def payment_methods
         data[:list_payment_methods_success][:payment_method].map do |payment_method|
           method = PaymentMethod.new(payment_method[:name])
-          method.issuers = payment_method[:issuers][:issuer].map { |issuer| [issuer.attributes['id'], issuer.to_s] }.to_h if payment_method.key?(:issuers)
+          method.issuers = payment_method[:issuers][:issuer].to_h { |issuer| [issuer.attributes['id'], issuer.to_s] } if payment_method.key?(:issuers)
           method
         end
       end
