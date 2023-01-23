@@ -80,6 +80,71 @@ RSpec.describe Docdata::Order::Client do
       expect(response.error_code).to eq('REQUEST_DATA_INCORRECT')
       expect(response.error_message).to eq('Merchant order reference is not unique.')
     end
+
+    it 'raises an exception when web service returns a 500' do
+      stub_request(:post, 'https://secure.docdatapayments.com/ps/services/paymentservice/1_3').to_return(status: 500)
+
+      expect {
+        client.create(
+          amount: '10',
+          order_reference: SecureRandom.hex,
+          description: 'Test order',
+          profile: 'foobar',
+          shopper: {
+            first_name: 'John',
+            last_name: 'Doe',
+            email: 'john.doe@example.com',
+            language: 'en',
+            gender: Docdata::Order::Gender::MALE
+          },
+          address: {
+            street: 'Mainstreet',
+            house_number: '42',
+            postal_code: '1234AA',
+            city: 'Big city',
+            country: 'NL'
+          }
+        )
+      }.to raise_error(Docdata::Order::Exception, 'HTTP error (500)')
+    end
+
+    it 'raises an exception when web service returns a SOAP fault' do
+      data = File.read('spec/fixtures/responses/soap_fault.xml')
+      stub_request(:post, 'https://secure.docdatapayments.com/ps/services/paymentservice/1_3').to_return(status: 200, body: data)
+
+      expect {
+        client.create(
+          amount: '10',
+          order_reference: SecureRandom.hex,
+          description: 'Test order',
+          profile: 'foobar',
+          shopper: {
+            first_name: 'John',
+            last_name: 'Doe',
+            email: 'john.doe@example.com',
+            language: 'en',
+            gender: Docdata::Order::Gender::MALE
+          },
+          address: {
+            street: 'Mainstreet',
+            house_number: '42',
+            postal_code: '1234AA',
+            city: 'Big city',
+            country: 'NL'
+          }
+        )
+      }.to raise_error(Docdata::Order::Exception, '(soap:Server) Fault occurred while processing.')
+    end
+
+    context 'when wsdl returns a 502' do
+      before { stub_request(:get, 'https://secure.docdatapayments.com/ps/services/paymentservice/1_3?wsdl').to_return(status: 502) }
+
+      it 'raises an exception' do
+        expect {
+          client.create(amount: '10')
+        }.to raise_error(Docdata::Order::Exception, 'HTTP error (502)')
+      end
+    end
   end
 
   describe '#start' do

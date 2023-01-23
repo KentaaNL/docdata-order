@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+  <S:Body>
+    <S:Fault>
+      <faultcode>soap:Server</faultcode>
+      <faultstring>Fault occurred while processing.</faultstring>
+    </S:Fault>
+</S:Body>
+</S:Envelope>
