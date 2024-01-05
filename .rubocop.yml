@@ -14,10 +14,11 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
+Gemspec/DevelopmentDependencies:
+  Enabled: false
 
 Layout/LineLength:
   Enabled: false
-
 
 Metrics/AbcSize:
   Max: 58
@@ -32,13 +33,11 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Enabled: false
 
-
 RSpec/ExampleLength:
   Max: 41
 
 RSpec/MultipleExpectations:
   Max: 10
-
 
 Style/BlockDelimiters:
   Exclude:
