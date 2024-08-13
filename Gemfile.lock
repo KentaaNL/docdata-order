@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     docdata-order (2.2.0)
+      bigdecimal
       savon (>= 2.0, < 3.0)
 
 GEM
@@ -13,6 +14,7 @@ GEM
       gyoku (>= 0.4.0)
       nokogiri
     ast (2.4.2)
+    bigdecimal (3.1.8)
     builder (3.2.4)
     crack (0.4.5)
       rexml
