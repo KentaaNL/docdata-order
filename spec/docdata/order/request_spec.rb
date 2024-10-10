@@ -33,7 +33,6 @@ RSpec.describe Docdata::Order::Request do
           country: 'NL'
         },
         payment_method: Docdata::Order::PaymentMethod::IDEAL,
-        issuer_id: 'TESTNL12',
         return_url: 'http://yourwebshop.nl/payment_return'
       )
 
@@ -69,7 +68,6 @@ RSpec.describe Docdata::Order::Request do
           country: 'NL'
         },
         payment_method: Docdata::Order::PaymentMethod::IDEAL,
-        issuer_id: 'TESTNL12',
         return_url: 'http://yourwebshop.nl/payment_return',
         initial: {
           merchant_reference: '12345'
@@ -108,7 +106,6 @@ RSpec.describe Docdata::Order::Request do
           country: 'NL'
         },
         payment_method: Docdata::Order::PaymentMethod::IDEAL,
-        issuer_id: 'TESTNL12',
         return_url: 'http://yourwebshop.nl/payment_return',
         subject_merchant: {
           name: 'sub',
@@ -126,35 +123,70 @@ RSpec.describe Docdata::Order::Request do
   end
 
   describe 'start' do
-    it 'creates a XML message with a start payment request' do
-      request = Docdata::Order::StartRequest.new(
-        merchant: {
-          name: 'name',
-          password: 'password'
-        },
-        order_key: '12345',
-        payment_method: Docdata::Order::PaymentMethod::SEPA_DIRECT_DEBIT,
-        consumer_name: 'Onderheuvel',
-        consumer_iban: 'NL44RABO0123456789',
-        consumer_bic: 'RABONL2U'
-      )
+    context 'with payment method iDEAL' do
+      it 'creates a start payment request XML message' do
+        request = Docdata::Order::StartRequest.new(
+          merchant: {
+            name: 'name',
+            password: 'password'
+          },
+          order_key: '12345',
+          payment_method: Docdata::Order::PaymentMethod::IDEAL
+        )
 
-      expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentOrderKey>12345</paymentOrderKey><payment><paymentMethod>SEPA_DIRECT_DEBIT</paymentMethod><directDebitPaymentInput><holderName>Onderheuvel</holderName><iban>NL44RABO0123456789</iban><bic>RABONL2U</bic></directDebitPaymentInput></payment><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+        expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentOrderKey>12345</paymentOrderKey><payment><paymentMethod>IDEAL</paymentMethod></payment><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+      end
     end
 
-    it 'creates a XML message with a start recurring payment request' do
-      request = Docdata::Order::StartRequest.new(
-        merchant: {
-          name: 'name',
-          password: 'password'
-        },
-        order_key: '12345',
-        recurring: {
-          merchant_reference: '12345'
-        }
-      )
+    context 'with payment method iDEAL and issuer ID' do
+      it 'creates a start payment request XML message' do
+        request = Docdata::Order::StartRequest.new(
+          merchant: {
+            name: 'name',
+            password: 'password'
+          },
+          order_key: '12345',
+          payment_method: Docdata::Order::PaymentMethod::IDEAL,
+          issuer_id: 'ABNANL2A'
+        )
 
-      expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentOrderKey>12345</paymentOrderKey><recurringPaymentRequest><initialPaymentReference><merchantReference>12345</merchantReference></initialPaymentReference></recurringPaymentRequest><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+        expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentOrderKey>12345</paymentOrderKey><payment><paymentMethod>IDEAL</paymentMethod><iDealPaymentInput><issuerId>ABNANL2A</issuerId></iDealPaymentInput></payment><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+      end
+    end
+
+    context 'with payment method SEPA' do
+      it 'creates a start payment request XML message' do
+        request = Docdata::Order::StartRequest.new(
+          merchant: {
+            name: 'name',
+            password: 'password'
+          },
+          order_key: '12345',
+          payment_method: Docdata::Order::PaymentMethod::SEPA_DIRECT_DEBIT,
+          consumer_name: 'Onderheuvel',
+          consumer_iban: 'NL44RABO0123456789',
+          consumer_bic: 'RABONL2U'
+        )
+
+        expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentOrderKey>12345</paymentOrderKey><payment><paymentMethod>SEPA_DIRECT_DEBIT</paymentMethod><directDebitPaymentInput><holderName>Onderheuvel</holderName><iban>NL44RABO0123456789</iban><bic>RABONL2U</bic></directDebitPaymentInput></payment><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+      end
+    end
+
+    context 'with a start recurring payment request' do
+      it 'creates a start payment request XML message' do
+        request = Docdata::Order::StartRequest.new(
+          merchant: {
+            name: 'name',
+            password: 'password'
+          },
+          order_key: '12345',
+          recurring: {
+            merchant_reference: '12345'
+          }
+        )
+
+        expect(request.to_s).to eq(%(<merchant name="name" password="password"/><paymentOrderKey>12345</paymentOrderKey><recurringPaymentRequest><initialPaymentReference><merchantReference>12345</merchantReference></initialPaymentReference></recurringPaymentRequest><integrationInfo><webshopPlugin>docdata-order</webshopPlugin><webshopPluginVersion>#{Docdata::Order::VERSION}</webshopPluginVersion><integratorName>Kentaa</integratorName><programmingLanguage>Ruby #{RUBY_VERSION}</programmingLanguage><operatingSystem>#{RUBY_PLATFORM}</operatingSystem><ddpXsdVersion>#{Docdata::Order::Client::DDP_VERSION}</ddpXsdVersion></integrationInfo>))
+      end
     end
   end
 

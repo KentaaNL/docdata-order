@@ -105,12 +105,11 @@ The `redirect_url` in the response will redirect the user to the Docdata Payment
 #### Redirecting directly to the payment page
 
 For some payment methods you can skip the Docdata One Page Checkout and redirect directly to the payment page of the specified payment method.
-This works for the payment methods iDEAL, Sofort and PayPal. For iDEAL, you also need to provide the issuer:
+This works for the payment methods iDEAL, Sofort and PayPal.
 
 ```ruby
 response = client.create(options.merge(
   payment_method: Docdata::Order::PaymentMethod::IDEAL,
-  issuer_id: "INGBNL2A",
   return_url: "http://yourwebshop.nl/payment_return"
 ))
 ```
@@ -218,4 +217,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/Kentaa
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

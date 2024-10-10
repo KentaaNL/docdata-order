@@ -292,8 +292,10 @@ module Docdata
 
             case payment_method
             when PaymentMethod::IDEAL
-              payment.iDealPaymentInput do |input|
-                input.issuerId(issuer_id)
+              if issuer_id
+                payment.iDealPaymentInput do |input|
+                  input.issuerId(issuer_id)
+                end
               end
             when PaymentMethod::SEPA_DIRECT_DEBIT
               payment.directDebitPaymentInput do |input|
@@ -319,7 +321,7 @@ module Docdata
       end
 
       def issuer_id
-        options.fetch(:issuer_id)
+        options[:issuer_id]
       end
 
       def consumer_name
