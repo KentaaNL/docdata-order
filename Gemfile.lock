@@ -21,7 +21,7 @@ GEM
     crack (1.0.0)
       bigdecimal
       rexml
-    date (3.3.4)
+    date (3.4.1)
     diff-lcs (1.5.1)
     faraday (2.12.0)
       faraday-net_http (>= 2.0, < 3.4)
@@ -51,7 +51,7 @@ GEM
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
-    net-imap (0.4.16)
+    net-imap (0.4.19)
       date
       net-protocol
     net-pop (0.1.2)
@@ -119,7 +119,7 @@ GEM
       nokogiri (>= 1.8.1)
       nori (~> 2.4)
       wasabi (>= 3.7, < 6)
-    timeout (0.4.1)
+    timeout (0.4.3)
     unicode-display_width (2.6.0)
     uri (0.13.1)
     wasabi (5.0.3)
