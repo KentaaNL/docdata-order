@@ -135,7 +135,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 2.0)
+  bundler (~> 2.5)
   docdata-order!
   rake (~> 13.0)
   rspec (~> 3.0)
@@ -146,4 +146,4 @@ DEPENDENCIES
   webmock (~> 3.0)
 
 BUNDLED WITH
-   2.2.33
+   2.5.23
