@@ -2,7 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/docdata-order.svg)](https://badge.fury.io/rb/docdata-order)
 [![Build Status](https://github.com/KentaaNL/docdata-order/actions/workflows/test.yml/badge.svg)](https://github.com/KentaaNL/docdata-order/actions)
-[![Code Climate](https://codeclimate.com/github/KentaaNL/docdata-order/badges/gpa.svg)](https://codeclimate.com/github/KentaaNL/docdata-order)
+[![CodeQL](https://github.com/KentaaNL/docdata-order/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/KentaaNL/docdata-order/actions/workflows/github-code-scanning/codeql)
 
 Docdata::Order is a Ruby client for the Docdata Order API version 1.3.
 
