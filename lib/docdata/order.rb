@@ -9,3 +9,35 @@ require 'docdata/order/request'
 require 'docdata/order/response'
 require 'docdata/order/urls'
 require 'docdata/order/version'
+
+require 'logger'
+
+module Docdata
+  # :nodoc:
+  module Order
+    # Holds the global Docdata::Order configuration.
+    class Configuration
+      attr_accessor :logger, :open_timeout, :read_timeout
+
+      def initialize
+        @logger = Rails.logger if defined?(Rails)
+        @open_timeout = 30
+        @read_timeout = 30
+      end
+    end
+
+    @config = Configuration.new
+
+    class << self
+      attr_reader :config
+
+      def configure
+        yield(@config)
+      end
+
+      def reset!
+        @config = Configuration.new
+      end
+    end
+  end
+end
