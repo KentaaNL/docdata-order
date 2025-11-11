@@ -9,6 +9,7 @@ Docdata::Order is a Ruby client for the Docdata Order API version 1.3.
 ## Table of Contents
 
 - [Installation](#installation)
+- [Configuration](#configuration)
 - [Usage](#usage)
   - [Initialization](#initialization)
     - [Subject merchant](#subject-merchant)
@@ -40,6 +41,21 @@ And then execute:
 Or install it yourself as:
 
     $ gem install docdata-order
+
+## Configuration
+
+Docdata::Order provides a global configuration object that allows you to customize logger output and HTTP timeouts. You can set these options via the `Docdata::Order.configure` block:
+
+```ruby
+Docdata::Order.configure do |config|
+  # Set a global logger for Docdata::Order output
+  config.logger = Logger.new($stdout)
+
+  # Set Net::HTTP timeout values (in seconds)
+  config.open_timeout = 30
+  config.read_timeout = 30
+end
+```
 
 ## Usage
 

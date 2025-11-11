@@ -62,7 +62,9 @@ module Docdata
 
           params.merge!(log: true, log_level: :debug, pretty_print_xml: true) if @options[:debug]
 
-          params[:logger] = Rails.logger if defined?(Rails)
+          params[:open_timeout] = Docdata::Order.config.open_timeout
+          params[:read_timeout] = Docdata::Order.config.read_timeout
+          params[:logger] = Docdata::Order.config.logger
 
           Savon.client(params)
         end
