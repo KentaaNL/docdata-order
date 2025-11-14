@@ -26,13 +26,13 @@ module Docdata
       end
     end
 
-    @config = Configuration.new
-
     class << self
-      attr_reader :config
+      def config
+        @config ||= Configuration.new
+      end
 
       def configure
-        yield(@config)
+        yield(config)
       end
 
       def reset!
