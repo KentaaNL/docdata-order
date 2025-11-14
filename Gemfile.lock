@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    docdata-order (2.4.0)
+    docdata-order (2.4.1)
       bigdecimal
       savon (>= 2.0, < 3.0)
 
