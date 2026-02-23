@@ -7,8 +7,8 @@ require 'docdata/order/version'
 Gem::Specification.new do |spec|
   spec.name          = 'docdata-order'
   spec.version       = Docdata::Order::VERSION
-  spec.authors       = ['Kentaa']
-  spec.email         = ['support@kentaa.nl']
+  spec.authors       = %w[Kentaa iRaiser]
+  spec.email         = ['tech-arnhem@iraiser.eu']
 
   spec.summary       = 'Ruby client for the Docdata Order API'
   spec.homepage      = 'https://github.com/KentaaNL/docdata-order'
